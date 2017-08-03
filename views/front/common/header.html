@@ -1,0 +1,41 @@
+<header class="header">
+	<div class="header-con">
+		<div class="logo fl" >
+			<a href="/"><img src="/images/logo.png" alt="logo"></a>
+		</div>
+		<ul class="nav-list fl">
+			<li><a href="/" class="active">首页</a></li>
+			<li><a href="/chat">聊天</a></li>
+			<li><a href="/hot">热点</a></li>
+		</ul>
+		<div class="search fl">
+			<div class="search_box">
+				<input type="text" class="search_text" id="search_text" placeholder="搜索博文、用户" />
+				
+				<button class="search_btn" title="搜索"  class="" type="button"><i class="fa fa-search"></i></button>
+			</div>
+		</div>
+		<ul class="info fr">
+			<li class="message"><i class="fa fa-comments"></i></li>
+			<li class="notice"><i class="fa fa-assistive-listening-systems"></i></li>
+			<li class="avatar">
+				<img src="/images/avatar/default.jpg" alt="avatar" title="avatar"  />
+
+			</li>
+		</ul>
+	</div>
+</header>
+<script>
+	var search_text=document.getElementById("search_text");
+	search_text.onfocus=function(){
+		this.parentNode.style.width='400px';
+		// this.parentNode.style.backgroundColor="#fff";
+	}
+	search_text.onblur=function(){
+		this.parentNode.style.width="326px";
+		this.parentNode.style.backgroundColor="";
+	}
+
+</script>
+
+

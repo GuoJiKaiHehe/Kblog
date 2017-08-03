@@ -1,0 +1,57 @@
+body {
+  overflow: hidden;
+}
+.container {
+  overflow: hidden;
+  width: 1000px;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+  background: url("../images/404.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;
+  height: 600px;
+  color: #abcd12;
+  animation: bound 1s ease-out;
+}
+.container .text {
+  vertical-align: middle;
+}
+.container a {
+  color: #0DCBFF;
+  text-decoration: none;
+  font-size: 25px;
+}
+.container a:hover {
+  color: #5C0CE8;
+}
+.container #flush {
+  position: absolute;
+  bottom: 100px;
+  left: 250px;
+}
+.container #home {
+  position: absolute;
+  bottom: 100px;
+  right: 250px;
+}
+@keyframes bound {
+  0% {
+    transform: translateY(-600px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  60% {
+    transform: translateY(-100px);
+  }
+  75% {
+    transform: translateY(0px);
+  }
+  85% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}

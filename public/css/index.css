@@ -1,0 +1,130 @@
+@charset "utf-8";
+body,
+html {
+  height: 100%;
+}
+.header {
+  height: 53px;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background-color: #fff;
+}
+.header .header-con {
+  margin: 0 auto;
+  width: 1000px;
+  padding: 0 16px;
+}
+.header .header-con .logo {
+  width: 50px;
+  margin-top: 5px;
+}
+.header .header-con .logo img {
+  width: 100%;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.header .header-con .nav-list {
+  line-height: 53px;
+  text-align: center;
+  margin-left: 20px;
+}
+.header .header-con .nav-list li {
+  float: left;
+  padding: 0 15px;
+}
+.header .header-con .nav-list li a {
+  color: #abcd12;
+  font-size: 15px;
+  display: block;
+}
+.header .header-con .nav-list li a.active {
+  color: #E8930C;
+  text-decoration: underline;
+}
+.header .header-con .nav-list li a:hover {
+  color: #E8930C;
+  text-decoration: underline;
+}
+.header .header-con .search {
+  margin-top: 8px;
+  margin-left: 30px;
+}
+.header .header-con .search .search_box {
+  width: 326px;
+  transition: width 0.2s ease-out;
+  position: relative;
+  height: 36px;
+  padding: 4px 10px;
+  box-sizing: border-box;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid #abcd12;
+  opacity: .5;
+}
+.header .header-con .search .search_box .search_text {
+  width: 80%;
+  border: 0;
+  outline: 0;
+  float: left;
+  height: 28px;
+  font-size: 15px;
+  color: #666;
+}
+.header .header-con .search .search_box .search_btn {
+  width: 20%;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  background-color: transparent;
+  float: right;
+  position: absolute;
+  right: -11px;
+  top: 6px;
+  color: #E8930C;
+}
+.header .header-con .info {
+  line-height: 50px;
+  font-size: 25px;
+  color: #abcd12;
+}
+.header .header-con .info .avatar {
+  width: 35px;
+  border-radius: 50%;
+  overflow: hidden;
+  padding-top: 8px;
+}
+.header .header-con .info .avatar img {
+  width: 100%;
+}
+.header .header-con .info li {
+  margin-left: 40px;
+  float: left;
+  cursor: pointer;
+}
+.main {
+  position: relative;
+  top: 51px;
+  min-height: 100%;
+  background-color: rgba(171, 205, 11, 0.1);
+  /* -webkit-filter:blur(10px);
+			filter:blur(10px); */
+  box-shadow: 0px 10px 30px rgba(171, 205, 11, 0.2);
+}
+.main .container {
+  position: relative;
+  margin: 20px auto;
+  width: 1000px;
+}
+.main .container .mainColumn {
+  width: 690px;
+  float: left;
+  margin-right: 15px;
+  border: 1px solid #ccc;
+}
+.main .container .rightSider {
+  width: 290px;
+}

@@ -1,0 +1,22 @@
+{
+	"restartable": "rs",  //重启模式
+	"ignore": [  //忽略文件；
+		".git",
+		".svn",
+		"node_modules/**/node_modules"
+	],
+	"verbose": true,//日志输出模式
+	"execMap": { //设置运行服务的后缀名与对应的命令
+		"js": "node --harmony"
+	},
+	"watch": [
+		"config/",
+		"routes/",
+		"app.js",
+		"models/"
+	],
+	"env": {
+		"NODE_ENV": "development"
+	},
+	"ext": "js json" //监控指定的后缀文件名
+}

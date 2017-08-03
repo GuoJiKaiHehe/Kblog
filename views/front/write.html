@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title><%= title %></title>
+	
+	<link rel="stylesheet" type="text/css" href="/lib/simditor/styles/simditor.css" />
+
+<script type="text/javascript" src="/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="/lib/simple-module/lib/module.js"></script>
+<script type="text/javascript" src="/lib/simple-hotkeys/lib/hotkeys.js"></script>
+<script type="text/javascript" src="/lib/simple-uploader/lib/uploader.js"></script>
+
+
+<script type="text/javascript" src="/lib/simditor/lib/simditor.js"></script>
+<link rel="stylesheet" href="/css/write.css">
+</head>
+<body>
+	<header class="header">
+		<div class="logo">
+			<img src="/images/logo.png" alt="">
+		</div>
+		<h1 class="title">
+			<%= title %>
+		</h1>
+		<div class="push">
+			<a href="javascript:;">发布</a>
+		</div>
+	</header>
+	<div class="write-main">
+		<div class="title-pic" title="点击上传头图">
+			<div class="click_up">
+				<img src="/images/pic.jpg"  width="80" alt="">添加题图
+				<input type="file" id="image"  style="display: none;"/>
+			</div>
+			<div class="showimg" class="img_box">
+				
+			</div>
+		</div>
+		<div class="title">
+			<input type="text" class="text" placeholder="请输入标题" />
+		</div>
+		<div class="p">
+			<textarea id="editor" placeholder="Balabala" autofocus></textarea>
+		</div>
+	</div>
+	<script>
+		var editor = new Simditor({
+		  textarea: $('#editor')
+		  
+		});
+		$(".click_up").click(function(e){
+			e.stopPropagation();
+			$("#image")[0].click();
+		});
+		function upload(file){
+			//上传逻辑；
+		}
+		editor.on("keyup",function(){
+			console.log(editor.getValue())
+			if(editor.getValue().length>0){
+				$(".push a").css({
+					backgroundColor:"#abcd12",
+					color:"#fff"
+				})
+			}else{
+				$(".push a").css({
+					backgroundColor:"#fff",
+					color:"#999"
+				})
+			}
+		});	
+	</script>
+</body>
+</html>
