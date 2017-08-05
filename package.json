@@ -3,20 +3,27 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "node  ./bin/www"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
     "bower": "^1.8.0",
+    "browser-sync": "^2.18.13",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
+    "express-session": "^1.15.5",
     "gulp": "^3.9.1",
+    "lodash": "^4.17.4",
+    "markdown": "^0.5.0",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.5",
     "morgan": "~1.8.1",
     "serve-favicon": "~2.4.2",
-    "simditor": "^2.3.6"
+    "simditor": "^2.3.6",
+    "socket.io": "^2.0.3",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "gulp-nodemon": "^2.2.1"

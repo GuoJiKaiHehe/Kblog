@@ -5,8 +5,10 @@
 		</div>
 		<ul class="nav-list fl">
 			<li><a href="/" class="active">首页</a></li>
-			<li><a href="/chat">聊天</a></li>
+			<li><a href="/chat">聊天室</a></li>
+			<li><a href="/game">游戏</a></li>
 			<li><a href="/hot">热点</a></li>
+			<li><a href="/articles">文章</a></li>
 		</ul>
 		<div class="search fl">
 			<div class="search_box">
@@ -18,23 +20,99 @@
 		<ul class="info fr">
 			<li class="message"><i class="fa fa-comments"></i></li>
 			<li class="notice"><i class="fa fa-assistive-listening-systems"></i></li>
+			<li class="username"><i class="fa fa-user fa-fw"></i></li>
 			<li class="avatar">
-				<img src="/images/avatar/default.jpg" alt="avatar" title="avatar"  />
-
+				<a href="javascript:;"><img src="/images/avatar/default.jpg" alt="avatar" title="avatar"  />
+				</a>
+				<span class="nick"><%=nick%></span>
+				<dl class="setting" style="display: none">
+					<dd><a href="/user">我的主页</a></dd>
+					<dd><a href="/usre?to=setting">设置</a></dd>
+					<dd><a href="/quit">退出</a></dd>
+				</dl>
 			</li>
+		</ul>
+	</div>
+	<div class="language">
+		<a href="javascript:;" id="testlang">多语言</a>
+		<ul class="langs-list">
+			<li><a href="javascript:;" class="lang" lang="en">英语</a></li>
 		</ul>
 	</div>
 </header>
 <script>
+
+var body=document.body;
+/*body.ondragstart=function(){
+	window.event.returnValue=false
+}
+body.oncontextmenu=function(){
+	window.event.returnValue=false
+}
+body.onselectstart=function(){
+	event.returnValue=false
+}*/
+	var langs=['zh-cn','en'];
+	$("body").on("click",'.lang',function(e){
+		var lang=$(this).attr("lang");
+		if(inArray(langs,lang)){
+			$.ajax({
+				url:'http://103.76.85.214:3333/taolin-translate',
+				dataType:'jsonp',
+				data:{
+					text:[$("#testlang").text()],
+					from:'zh-cn',
+					to:'en'
+				},
+				success:function(res){
+					// console.log(res);
+				},
+				error:function(){
+
+				}
+			})
+		}
+	});
+
+	function inArray(arr,o){
+		for(var i=0;i<arr.length;i++){
+			if(arr[i]==o){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	var search_text=document.getElementById("search_text");
 	search_text.onfocus=function(){
-		this.parentNode.style.width='400px';
+		this.parentNode.style.width='300px';
 		// this.parentNode.style.backgroundColor="#fff";
 	}
 	search_text.onblur=function(){
-		this.parentNode.style.width="326px";
+		this.parentNode.style.width="250px";
 		this.parentNode.style.backgroundColor="";
 	}
+	$(".header .avatar img").on("click",function(e){
+		e.stopPropagation();
+		if($(this).parent().find(".setting").is(":hidden")){
+			$(this).parent().find(".setting").fadeIn(200);
+		}else{
+			$(this).parent().find(".setting").fadeOut(200);
+		}
+	});
+	$(document).on("click",function(e){
+		// e.stopPropagation();
+		console.log($(".avatar .setting").is(":hidden"))
+		// console.log($(".avatar .setting")[0]);
+
+		if(!$(".avatar .setting").is(":hidden")){
+			$(".avatar .setting").fadeOut(200);
+		}
+	});
+	$(".avatar .setting").on('click',function(e){
+		e.stopPropagation();
+	})
+
 
 </script>
 

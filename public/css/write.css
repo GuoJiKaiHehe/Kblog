@@ -12,6 +12,7 @@ body {
   width: 50px;
   float: left;
   margin-left: 30px;
+  cursor: pointer;
 }
 .header .logo img {
   width: 100%;
@@ -35,6 +36,8 @@ body {
   right: 40px;
   top: 5px;
   border-radius: 7px;
+  border-radius: 6px;
+  overflow: hidden;
 }
 .header .push a {
   color: #999;

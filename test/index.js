@@ -41,4 +41,11 @@ function connect() {
 	}
 }
 connect();
+const Role=require(__dirname+"/../models/role.js");
+Role.create({
+	roleName:"普通会员",
+	desc:"putong"
+},function(err,data){
+	console.log(err,data);
+})
 exports.connect=connect;

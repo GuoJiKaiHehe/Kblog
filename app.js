@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var session=require("express-session");
 var index = require('./routes/index');
 // var users = require('./routes/users');
 const db=require("./config/database.js");
@@ -24,11 +24,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  secret:'guojikai',
+  cookie:{maxAge:60*1000*22},
+  resave:true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index); //前台；
 
-app.use('/houtai', require("./routes/houtai"));//后台；
+app.use('/houtai',require("./routes/houtai")(app));//后台；
 
 
 
@@ -53,3 +58,20 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+
+Date.prototype.Format = function (fmt) { //author: meizz 
+    var o = {
+        "M+": this.getMonth() + 1, //月份 
+        "d+": this.getDate(), //日 
+        "h+": this.getHours(), //小时 
+        "m+": this.getMinutes(), //分 
+        "s+": this.getSeconds(), //秒 
+        "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+        "S": this.getMilliseconds() //毫秒 
+    };
+    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    for (var k in o)
+    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    return fmt;
+}

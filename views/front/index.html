@@ -1,101 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <%-include ../public/meta.html %>
     <title><%= title %> --K</title>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/index.css" />
-    <link rel="stylesheet" href="/css/reset.css" />
+     <%-include ./common/links.html%>
   </head>
-  <body>
+  <body  >
   <%-include ./common/header.html%>
   <main class="main clear">
     <div class="container clear">
-    	<div class="mainColumn fl clear">
-    		<div class="bowen-header">
-    			<ul class="todo">
-    				<li class="write">
-    					<i class="fa fa-pencil fa-fw"></i>
-    					<a href="javascript:;">写博文</a>
-    				</li>
-    				<li  class="draft">
-    					<a href="javascript:;">草稿<span class="num">0</span></a>
-    				</li>
-    			</ul>
-    		</div>
-    		<div class="bowens clear">
-    			<div class="bowen">
-    				<div class="cate">所属文类：<span>网页布局</span></div>
-    				<div class="author-info">
-    					<div class="avatar">
-    						<img src="/images/avatar/default.jpg" alt="avatar" width="24">
-    					</div>
-    					<div class="author">
-    						<span>郭积开</span>
-    					</div>
-    					<p class="personality-write">
-    						前端developer。i like it
-    					</p>
-    				</div>
-    				<div class="content">
-    					<div class="pic">
-    						<img src="/images/tu1.jpg" alt="">
-    					</div>
-    					<div class="text">
-    						泻药。感觉是码代码里碰到同性几率比较大的职业之一。
-							如果你缺个会挣钱的女朋友，请来前端团队。
-							如果你缺个可以帮你解决bug的女朋友，请做个后端，接口就是红线。
-							如果你缺个既能微笑拿刀也会认真码字的女朋友，再不行做个产品测试，至少可以相爱相杀。<a href="javascript:;" class="show_all">查看全文<i class="fa fa-chevron-down"></i></a>
-    					</div>
-    				</div>
-    				<ul class="foot-tool">
-    					<li class="vote_up"><i class="fa fa-thumbs-o-up"></i><span class="num">0</span></li>
-    					<li class="vote_down"><i class="fa fa-thumbs-o-down"></i><span class="num">0</span></li>
-						<li class="show_comments"><i class="fa fa-comment"></i><span class="num">0</span>条评论</li>
-						<li class="eye"><i class="fa fa-eye"></i>观看</li>
-						<li class="share"><i class="fa fa-share-alt"></i>分享</li>
-						<li class="share"><i class="fa fa-heart-o"></i>收藏</li>
-						<li>感谢</li>
-    				</ul>
-    			</div>
-    		</div>
-    	</div>
-		<div class="rightSider fr">
-			<ul class="cate-list">
-				<li><a href="javascript:;">
-					Js
-				</a></li>
-				<li><a href="javascript:;">
-					Node
-				</a></li>
-				<li><a href="javascript:;">
-					Express
-				</a></li>
-				<li><a href="javascript:;">
-					Koa
-				</a></li>
-				<li><a href="javascript:;">
-					PHP
-				</a></li>
-				<li><a href="javascript:;">
-					React Native
-				</a></li>
-				<li><a href="javascript:;">
-					Nginx
-				</a></li>
-			</ul>
-			<ul class="about-me">
-				<li><a href="javascript:;"><i class="fa fa-heart-o"></i>我的收藏</a></li>
-				<li><a href="javascript:;"><i class="fa fa-question"></i>我关注的问题</a></li>
-				<li><a href="javascript:;"><i class="fa fa-group"></i>社区服务中心</a></li>
-				<li><a href="javascript:;"><i class="fa fa-edit"></i>公共编辑动态</a></li>
-				<li><a href="javascript:;" ><i class="fa fa-copyright"></i>版权服务中心</a></li>
-				<li><a href="javascript:;"><i class="fa fa-user-o"></i>关于我</a></li>
-			</ul>
-			<div class="copyright">
-				<p>作者：郭积开</p>
-			</div>
-		</div>
+    	<%- include ./common/mainColumn.html%>
+
+        <%- include ./common/rightSider.html%>
    	 </div>
    </main> 
+
+<script type="text/javascript" src="/javascripts/index.js"></script>
   </body>
 </html>

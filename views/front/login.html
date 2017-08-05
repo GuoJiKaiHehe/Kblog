@@ -1,10 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
+	<%-include ../public/meta.html %>
 	<title>登录</title>
+	
+	<link rel="stylesheet" href="/css/login.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-	登陆
+	<div class="content">
+		<div class="login-main">
+			<div class="logo">
+				<img src="/images/logo.png" alt="">
+				<p class="text">记录你的故事与生活</p>
+			</div>
+			<ul class="tab-navs">
+				<li class="active">
+					登录
+				</li>
+				<li>
+					注册 
+				</li>
+			</ul>
+			<div class="tab-box clear">
+				<!-- 登录 -->
+				<div class="login-in tab-con">
+					<form action="#" id="login-form">
+						<div class="input-group">
+							<input type="text"  name="account" placeholder="用户名--3到20位英文加数字" class="text">
+						</div>
+						<div class="input-group">
+							<input type="password" name="pass" placeholder="密码--6到20位英文加数字" class="text">
+						</div>
+						<div class="input-group">
+							<button type="button" class="k-login btn btn-primary btn-block">
+								登录
+							</button>
+						</div>
+						<dl class="login-list">
+							<dt>其他方式登录</dt>
+							<dd class="github-login"><a href="javascript:;"><i class="fa fa-github"></i></a></dd>
+							<dd class="qq-login"><a href="javascript:;"><i class="fa fa-qq"></i></a></dd>
+						</dl>
+					</form>
+					<p class="text">
+						登录后，分享您的故事吧！
+					</p>
+				</div>
+				<div class="sign-up tab-con" >
+					<!-- 注册 -->
+					<form action="#" id="sign-form">
+						<div class="input-group">
+							<input type="text" placeholder="姓名" class="text">
+						</div>
+						<div class="input-group">
+							<input type="text" placeholder="帐号" class="text">
+						</div>
+						<div class="input-group">
+							<input type="text" placeholder="手机号" class="text">
+						</div>
+						<div class="input-group">
+							<input type="text" placeholder="密码" class="text">
+						</div>
+						<div class="input-group">
+							<button type="button" class="btn btn-primary">
+								注册
+							</button>
+						</div>
+					</form>
+					<p class="text">点击注册后，您将成为本站的一员。</p>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	<canvas id="demo-canvas" class="main-canvas"></canvas>
+	<footer class="footer">
+		<p class="copyright">
+			版权所有：郭积开
+		</p>
+	</footer>
+	<script src="/lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="/lib/TweenLite.min.js"></script>
+	<script type="text/javascript" src="/lib/lodash.js"></script>
+	<script type="text/javascript" src="/lib/simplemde.js"></script>
+	<script type="text/javascript" src="/lib/EasePack.min.js"></script>
+	<script src="/lib/canvas.js"></script>
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/layer/2.1/layer.js"></script>
 </body>
 </html>
+<script>
+	var login_mod={
+		tabBtns:null,
+		tabCons:null,
+		index:0,
+		tabBox:null,
+		addEvent:function(){
+			var _this=this;
+			this.tabBtns.on("click",function(){
+				_this.index=$(this).index();
+				_this.change();
+
+			});
+		},
+		change:function(){
+			var x=-1*this.index*300;
+
+			this.tabBox.css({
+				transform:"translateX("+x+"px)"
+			});
+			// this.tabCons.eq(this.index).show().siblings().hide();
+			this.tabBtns.eq(this.index).addClass("active").siblings().removeClass("active");
+		},
+		todoLogin:function(){
+			$("#login-form").submit(function(e){
+				e.stopPropagation();
+				e.preventDefault();
+			});
+			$(".k-login").on("click",function(){
+				$.ajax({
+					url:"/klogin",
+					type:"post",
+					data:$("#login-form").serialize(),
+					success:function(res){
+						// console.log(res);
+						if(res.error){
+							layer.msg(res.result,{icon:5})
+						}else{
+							layer.msg(res.result,{icon:1})
+							setTimeout(function(){
+								location.href="/";
+							},500)
+						}
+					}
+				})
+			});
+			// $("")
+		},
+		init:function(){
+			this.tabBtns=$(".tab-navs li");
+			this.tabCons=$(".tab-con");
+			this.tabBox=$(".tab-box");
+			this.todoLogin();
+			this.addEvent();
+		}
+	}
+	login_mod.init();
+</script>
