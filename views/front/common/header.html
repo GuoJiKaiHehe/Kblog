@@ -21,16 +21,27 @@
 			<li class="message"><i class="fa fa-comments"></i></li>
 			<li class="notice"><i class="fa fa-assistive-listening-systems"></i></li>
 			<li class="username"><i class="fa fa-user fa-fw"></i></li>
+			<% if(typeof nick!='undefined'){%>
 			<li class="avatar">
 				<a href="javascript:;"><img src="/images/avatar/default.jpg" alt="avatar" title="avatar"  />
 				</a>
-				<span class="nick"><%=nick%></span>
+				<span class="nick"></span>
 				<dl class="setting" style="display: none">
+					
 					<dd><a href="/user">我的主页</a></dd>
 					<dd><a href="/usre?to=setting">设置</a></dd>
 					<dd><a href="/quit">退出</a></dd>
+					
+					
+					
 				</dl>
 			</li>
+			<%}else{%>
+			<li><a href="/klogin">登录</a>
+				<a href="/klogin?do=reg">注册</a>
+			</li>
+			<%}%>
+
 		</ul>
 	</div>
 	<div class="language">
