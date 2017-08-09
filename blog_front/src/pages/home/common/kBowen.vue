@@ -1,10 +1,5 @@
 <template>
-<<<<<<< HEAD
-	
-=======
-<<<<<<< HEAD
-	
-=======
+
 	<div class="bowen">
 		<div class="title-cate">
 			所属分类：<span class="cate">网页布局</span>
@@ -41,8 +36,7 @@
 			</ul>
 		</div>
 	</div>
->>>>>>> usera
->>>>>>> front_vue
+
 </template>
 
 
@@ -51,14 +45,8 @@
 </script>
 
 
-<<<<<<< HEAD
-<style type="text/css">
-	
-=======
-<<<<<<< HEAD
-<style type="text/css">
-	
-=======
+
+
 <style type="text/css" lang="less" scoped>
 @import url('../../../less/var.less');
 	.bowen{
@@ -141,6 +129,5 @@
 			}
 		}
 	}
->>>>>>> usera
->>>>>>> front_vue
+
 </style>

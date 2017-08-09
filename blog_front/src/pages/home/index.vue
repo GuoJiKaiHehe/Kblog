@@ -2,14 +2,6 @@
 	<div class="home">
 		<k-header></k-header>
 		<div class="container">
-<<<<<<< HEAD
-			<left-main></left-main>
-			<right-sider></right-sider>
-=======
-<<<<<<< HEAD
-			<left-main></left-main>
-			<right-sider></right-sider>
-=======
 			<div class="left-main-wrap fl">
 				<left-main></left-main>
 			</div>
@@ -17,8 +9,7 @@
 			<div class="right-sider-wrap fl">
 				<right-sider></right-sider>
 			</div>
->>>>>>> usera
->>>>>>> front_vue
+
 		</div>
 	</div>
 
@@ -28,21 +19,10 @@
 <script type="text/javascript">
 import kHeader from '@/components/header.vue';
 
-<<<<<<< HEAD
-import leftMain from '@/components/leftMain.vue';
-
-import rightSider from '@/components/rightSider.vue';
-=======
-<<<<<<< HEAD
-import leftMain from '@/components/leftMain.vue';
-
-import rightSider from '@/components/rightSider.vue';
-=======
 import leftMain from './leftMain.vue';
 
 import rightSider from './rightSider.vue';
->>>>>>> usera
->>>>>>> front_vue
+
 export default{
 	name:"home",
 	components:{
@@ -70,18 +50,20 @@ export default{
 		.container{
 			width:1000px;
 			margin:0 auto;
+			display: flex;	
 		}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
+
+
 		.left-main-wrap{
 			width:690px;
-
+			flex:1;
+			margin-right:20px;
 		}
 		.right-sider-wrap{
 			width:290px;
-			float:right;
+			flex:0 0 290px;
+			// float:right;
 			
 			
 		}
@@ -90,7 +72,6 @@ export default{
 		position:relative;
 		top:50px;
 		padding-top:20px;
->>>>>>> usera
->>>>>>> front_vue
+
 	}
 </style>

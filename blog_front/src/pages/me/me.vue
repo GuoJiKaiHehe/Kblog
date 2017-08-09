@@ -10,17 +10,18 @@
 				</div>
 			</div>
 			<div class="content">
-				<div class="history-bowen history">
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-				</div>
-				<div class="history-article history">
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-					<li>有哪些近几年被 90 后、95 后追捧的新职业？ <div class="time">201702323</div></li>
-
-				</div>
+				<dl class="history-bowen history">
+					<dt>最近发表的博文</dt>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+				</dl>
+				<dl class="history-article history">
+					<dt>最近发表的文章</dt>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+					<dd>有哪些近几年被 90 后、95 后追捧的新职业？ <span class="time">201702323</span></dd>
+				</dl>
 			</div>
 			
 			
@@ -82,7 +83,15 @@ export default{
 				float:right;
 				width:49%;
 			}
-			li{
+			dt{
+				height:40px;
+				border-bottom: 1px solid #ccc;
+				line-height: 2;
+				font-weight: 600;
+				font-size: 15px;
+				text-align: center;
+			}
+			dd{
 				list-style: none;
 				display: inline-block;
 				width: 100%;

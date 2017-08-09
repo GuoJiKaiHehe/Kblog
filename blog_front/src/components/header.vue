@@ -16,23 +16,12 @@
 					  :on-icon-click="handleSearch">
 			</el-input>
 			</div>
-			<ul class="logined info" v-if="isLogin">
-				<li class="msg"><i class="fa fa-comments"></i></li>
-				<li class="msg"><i class="fa fa-assistive-listening-systems"></i></li>
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> front_vue
-				<li class="username"><a href="javascript:;"><i class="fa fa-user fa-fw"></i>{{userInfo.name}}</a></li>
-				<li class="avatar"><img src="/static/images/avatar/default.jpg" width="33"  alt="logo"></li>
-			</ul>
-			<ul v-else class="notlogin info">
-<<<<<<< HEAD
-=======
-=======
+			
+			<ul  v-if="isLogin" class="logined info" >
+					
 				<li class="username">{{userInfo.name}}</li>
-				<li class="avatar">
-					<img src="/static/images/avatar/default.jpg" @click.stop="showsubnav" width="33"  alt="logo">
+				<li class="avatar"	>
+					<img src="/static/images/avatar/default.jpg" @click.stop="showsubnav" width="33"  alt="avatar">
 					<ul class="subnav" v-show="isShowSubNav">
 						<li @click.stop="stopPropa"><router-link :to="{path:'/me'}" >个人主页</router-link></li>
 						<li @click.stop="stopPropa"><i class="fa fa-cog fa-fw"></i><router-link :to="{path:'/sys'}">系统设置</router-link></li>
@@ -41,10 +30,13 @@
 				</li>
 			</ul>
 			<ul class="notlogin info" v-else >
->>>>>>> usera
->>>>>>> front_vue
+
 				<li><a href="javascript:;">登录</a></li>
 				<li><a href="javascript:;">注册</a></li>
+			</ul>
+			<ul class=" notlogin info">
+				<li class="msg"><i class="fa fa-comments"></i></li>
+				<li class="msg"><i class="fa fa-assistive-listening-systems"></i></li>
 			</ul>
 		</div>
 	</div>
@@ -54,32 +46,23 @@
 <script type="text/javascript">
 	export default{
 		name:"header",
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
 		mounted(){
 			var _this=this;
 			document.onclick=function(e){
 				e.stopPropagation();
+
 				_this.isShowSubNav=false
 			}
 		},
->>>>>>> usera
->>>>>>> front_vue
+
 		data(){
 			return{
 				isLogin:true,
 				userInfo:{
 					name:"guojikai"
 				},
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 				isShowSubNav:false,
->>>>>>> usera
->>>>>>> front_vue
 				search_text:'',
 				// curNav:''
 				navs:[
@@ -105,18 +88,16 @@
 		methods:{
 			handleSearch(){
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
 			},
-			showsubnav(){
+			showsubnav(e){
+				console.log(this.isShowSubNav);
+
 				this.isShowSubNav=!this.isShowSubNav;
 			},
 			stopPropa(e){
+				console.log('333')
 				e.stopPropagation();
->>>>>>> usera
->>>>>>> front_vue
+
 			}
 		}
 
@@ -132,17 +113,14 @@
 		position: fixed;
 		top:0;
 		width:100%;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
 		background-color: #fff;
 		z-index: 99;
->>>>>>> usera
->>>>>>> front_vue
+
 		.header-container{
 			width:1000px;
 			margin:0 auto;
+			height:50px;
 			padding-top:8px;
 		}
 		.logo{
@@ -158,15 +136,13 @@
 			li{
 				float:left;
 				line-height: 33px;
-<<<<<<< HEAD
+
 				padding:0 10px;
-=======
-<<<<<<< HEAD
+
 				padding:0 10px;
-=======
+
 				padding:0 20px;
->>>>>>> usera
->>>>>>> front_vue
+
 				a{
 					color:#666;
 					display: block;
@@ -188,50 +164,29 @@
 			margin-left:20px;
 		}
 		.info{
-<<<<<<< HEAD
-			float:left;
-=======
-<<<<<<< HEAD
-			float:left;
-=======
+
+
 			float:right;
 			margin-left:20px;
->>>>>>> usera
->>>>>>> front_vue
+
 			li{
 				float:left;
 				font-size: 22px;
 				color:#666;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> front_vue
 				padding:0 10px;
 				img {
 					border-radius: 10px;
 					overflow: hidden;
-<<<<<<< HEAD
-=======
-=======
-				padding:0 20px;
-				img {
-					border-radius: 10px;
-					overflow: hidden;
+					padding:0 20px;
+					display: block;
 					cursor: pointer;
->>>>>>> usera
->>>>>>> front_vue
-				}
 				a{
 					color:#666;
 				}
-				i{
-
+				
 				}
 			}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
 			.avatar{
 				position: relative;
 				.subnav{
@@ -255,10 +210,7 @@
 						border-top-color: transparent;
 						top:-20px;
 						left:50%;
-					
 						margin-left:-10px;
-						
-						
 					}
 					li{
 						display: block;
@@ -268,14 +220,11 @@
 						line-height:2;
 						float:none;
 						height:30px;
-
 					}
 				}
 			}
->>>>>>> usera
->>>>>>> front_vue
+
 		}
 	}
-
 
 </style>

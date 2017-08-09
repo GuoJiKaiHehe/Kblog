@@ -6,7 +6,9 @@
 				<div class="text">记录你的故事与生活</div>
 			</div>
 			<ul class="tab-nav">
-				<li  v-for="(item,key) in tabbtns "><a href="javascript:;"  @click="changeTab(key)" :class="{'active':key==index}">{{item}}</a></li>
+				<li  v-for="(item,key) in tabbtns ">
+				<a href="javascript:;"  @click="changeTab(key)" :class="{'active':key==index}">{{item}}</a>
+				</li>
 				
 			</ul>
 

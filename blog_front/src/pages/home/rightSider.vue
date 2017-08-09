@@ -1,10 +1,4 @@
 <template>
-<<<<<<< HEAD
-	
-=======
-<<<<<<< HEAD
-	
-=======
 	<div class="right-sider clear">
 		<div class="cate-list clear">
 			<ul class=" clear">
@@ -42,20 +36,15 @@
 			</ul>
 		</div>
 	</div>
->>>>>>> usera
->>>>>>> front_vue
+
 </template>
 
 <script type="text/javascript">
 	
 </script>
 
-<<<<<<< HEAD
-<style type="text/css"></style>
-=======
-<<<<<<< HEAD
-<style type="text/css"></style>
-=======
+
+
 <style type="text/css" lang="less">
 @import url('../../less/var.less');
 .about-me-wrap{
@@ -108,5 +97,3 @@
 	}
 }
 </style>
->>>>>>> usera
->>>>>>> front_vue

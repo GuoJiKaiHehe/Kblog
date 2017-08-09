@@ -10,21 +10,13 @@
 		</div>
 		<div class="bowen-wrap">
 			<ul class="bowen-list">
-<<<<<<< HEAD
+
 				<li>
 					<kBowen></kBowen>
-=======
-<<<<<<< HEAD
-				<li>
-					<kBowen></kBowen>
-=======
-				<li >
-					<k-bowen></k-bowen>
 				</li>
 				<li >
 					<k-bowen></k-bowen>
->>>>>>> usera
->>>>>>> front_vue
+
 				</li>
 			</ul>
 		</div>
@@ -32,10 +24,7 @@
 </template>
 
 <script type="text/javascript">
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> front_vue
+
 	import kBowen from './common/kBowen';
 	export default{
 		components:{
@@ -47,25 +36,6 @@
 			}
 		}
 	}
-</script>
-
-<style type="text/css" scoped>
-	
-<<<<<<< HEAD
-=======
-=======
-import kBowen from './common/kBowen'
-
-export default{
-	components:{
-		kBowen
-	},
-	data(){
-		return {
-			
-		}
-	}
-}
 </script>
 
 <style type="text/css" lang="less" scoped>
@@ -96,6 +66,5 @@ export default{
 		}
 	}
 
->>>>>>> usera
->>>>>>> front_vue
+
 </style>

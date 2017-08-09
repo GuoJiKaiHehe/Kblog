@@ -13,16 +13,20 @@ import Login from '@/pages/login/login.vue'
 
 import Reg from '@/pages/login/reg.vue' 
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
 import Me from '@/pages/me/me.vue'  //个人主页
 
 import Sys from '@/pages/sys/sys.vue'  
 
->>>>>>> usera
->>>>>>> front_vue
+import UserCenter from '@/pages/sys/usercenter.vue'  
+  import myMsg from '@/pages/sys/myMsg.vue'  
+
+import sysBase from '@/pages/sys/sysBase/sysBase.vue'
+  import MyData from '@/pages/sys/sysBase/myData.vue' 
+  import Avatar from '@/pages/sys/sysBase/avatar.vue'
+  import Pass from '@/pages/sys/sysBase/pass.vue'
+  import Bind from '@/pages/sys/sysBase/bind.vue' 
+
 import ErrorPage from '@/pages/error.vue'
 
 Vue.use(Router)
@@ -45,10 +49,7 @@ export default new Router({
       component: Game
     },
     {
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
+
       path: '/me',
       name: 'me',
       component: Me
@@ -56,11 +57,25 @@ export default new Router({
     {
       path: '/sys',
       name: 'sys',
-      component: Sys
+      component: Sys,
+      children:[
+        {path:'user',name:'user',component:UserCenter},
+        {path:'myMsg',name:'myMsg',component:myMsg},
+        {path:'sysBase',
+          name:'usercenter',
+          component:sysBase,
+          children:[
+            {path:'/',redirect:{name:'mydata'}},
+            {path:'mydata',name:'mydata',component:MyData},
+            {path:'avatar',name:'avatar',component:Avatar},
+            {path:'pass',name:'pass',component:Pass},
+            {path:'bind',name:'bind',component:Bind}
+          ]
+        }
+      ]
     },
     {
->>>>>>> usera
->>>>>>> front_vue
+
       path: '/article',
       name: 'article',
       component: Article
