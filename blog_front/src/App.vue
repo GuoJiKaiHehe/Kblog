@@ -14,6 +14,15 @@ export default {
 </script>
 
 <style lang="less">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+body{
+  
+}
+>>>>>>> usera
+>>>>>>> front_vue
 .clear:after{
   clear:both;
   content:" ";
@@ -22,7 +31,21 @@ export default {
 .clear{
   zoom:1;
 }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+ul{
+  padding:0;
+  margin:0;
+  li{
+    margin:0;
+  }
+}
+>>>>>>> usera
+>>>>>>> front_vue
 html,body,#app{
   width: 100%;
   height:100%;
@@ -37,7 +60,20 @@ html,body,#app{
 .fade-enter,.fade.leave-to{
     opacity: 0;
 }
+<<<<<<< HEAD
 
+=======
+<<<<<<< HEAD
+
+=======
+.fl{
+  float:left;
+}
+.fr{
+  float:right;
+}
+>>>>>>> usera
+>>>>>>> front_vue
 
 /* #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

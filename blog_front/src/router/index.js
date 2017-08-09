@@ -13,6 +13,16 @@ import Login from '@/pages/login/login.vue'
 
 import Reg from '@/pages/login/reg.vue' 
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+import Me from '@/pages/me/me.vue'  //个人主页
+
+import Sys from '@/pages/sys/sys.vue'  
+
+>>>>>>> usera
+>>>>>>> front_vue
 import ErrorPage from '@/pages/error.vue'
 
 Vue.use(Router)
@@ -35,6 +45,22 @@ export default new Router({
       component: Game
     },
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      path: '/me',
+      name: 'me',
+      component: Me
+    },
+    {
+      path: '/sys',
+      name: 'sys',
+      component: Sys
+    },
+    {
+>>>>>>> usera
+>>>>>>> front_vue
       path: '/article',
       name: 'article',
       component: Article

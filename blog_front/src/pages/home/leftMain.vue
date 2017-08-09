@@ -10,8 +10,21 @@
 		</div>
 		<div class="bowen-wrap">
 			<ul class="bowen-list">
+<<<<<<< HEAD
 				<li>
 					<kBowen></kBowen>
+=======
+<<<<<<< HEAD
+				<li>
+					<kBowen></kBowen>
+=======
+				<li >
+					<k-bowen></k-bowen>
+				</li>
+				<li >
+					<k-bowen></k-bowen>
+>>>>>>> usera
+>>>>>>> front_vue
 				</li>
 			</ul>
 		</div>
@@ -19,6 +32,10 @@
 </template>
 
 <script type="text/javascript">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> front_vue
 	import kBowen from './common/kBowen';
 	export default{
 		components:{
@@ -34,4 +51,51 @@
 
 <style type="text/css" scoped>
 	
+<<<<<<< HEAD
+=======
+=======
+import kBowen from './common/kBowen'
+
+export default{
+	components:{
+		kBowen
+	},
+	data(){
+		return {
+			
+		}
+	}
+}
+</script>
+
+<style type="text/css" lang="less" scoped>
+@import url("../../less/var.less");
+	.bowen-title{
+		height:60px;
+		border-radius: 5px;
+		box-shadow: 2px 2px 15px #ccc;
+		line-height: 1.6;
+		box-sizing:border-box;
+		padding:20px;
+		a{
+			font-size:15px;
+			color:#666;
+			i{
+				margin-right:5px;
+			}
+			&:hover{
+				color:@lanse;
+			}
+		}
+	}
+	.bowen-wrap{
+		margin-top:20px;
+		.bowen-list{
+			margin-bottom:20px;
+
+		}
+	}
+
+>>>>>>> usera
+>>>>>>> front_vue
 </style>
