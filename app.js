@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session=require("express-session");
+var RedisStore=require("connect-redis")(session);
+
 var index = require('./routes/index');
 // var users = require('./routes/users');
 const db=require("./config/database.js");
@@ -23,17 +25,26 @@ app.engine("html",require("ejs").__express);
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("guojikai"));
 app.use(session({
   secret:'guojikai',
-  cookie:{maxAge:60*1000*22},
-  resave:true
+  cookie:{maxAge:60*1000*60*24}, //一天过时
+  resave:true,
+  store:new RedisStore({  //redis 缓存；
+    host:"103.76.85.214",
+    port:"6379",
+    pass:"guo978352",
+    prefix:"blog:"
+  })
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index); //前台；
+const moment = require("moment");
+Date.prototype.format=moment.format
 
 app.use('/houtai',require("./routes/houtai")(app));//后台；
+
 
 
 

@@ -1,31 +1,50 @@
 const express=require("express");
 const router=express.Router();
+
 const User=require(__dirname+"/../models/user.js");
 const UserRole=require(__dirname+"/../models/userRole.js");
 const lib=require(__dirname+'/../lib/index.js');
 const util=require("util");
 
+const limit=10;  //限制获取条数
+
 const Person=require(__dirname+"/../models/Person.js");
 //角色管理
 router.get("/",function(req,res,next){
-	/*User.findAsync({}).then((data)=>{
-		// console.log(data+'fffffff');
+	res.send(req);
+	var first;
+	var page=req.query.page;
+	if(!isNaN(page)){
+		first=(req.query.page-1)*limit;
+	}else{
+		res.send("page参数错了，没有数据！");
+	}
+	
+	User.getUsers({first:first},function(err,data){
+		// res.send(data);
+
+		if(err){
+			res.send(data);
+			return;
+		}else{
 		
-	})*/
-	User.find({}).populate({path:'pid',select:'',optons:{}}).populate("roles").exec((err,data)=>{
-		// console.log(data);
-		res.render("houtai/user/user-list",{
-			 users:data
-		});
+			var renderPage='';
+
+			res.render("houtai/user/user-list",{
+			 	users:data.result,
+			 	total:data.total,
+			 	limit:data.limit,
+			 	renderPage:renderPage
+			});
+		}
+		
 	})
-
+	/*User.find({}).populate({path:'pid',select:'',options:{}}).populate("roles").exec((err,data)=>{
+		// console.log(data);
 		
-
-	// res.send("333");
-	// User.fin
-	/*res.render("houtai/user/user-list",{
-			users:[]
-	});*/
+	})
+*/
+	
 });
 
 //角色管理

@@ -1,14 +1,20 @@
 const express=require("express");
 const router=express.Router();
-const Role=require(__dirname+"/../models/role.js");
+const AdminRole=require(__dirname+"/../models/AdminRole.js");
 //角色管理
 router.get("/",function(req,res,next){
-	Role.findAsync().then((data)=>{
+	AdminRole.getAdminRoles({},function(err,data){
+		res.render('houtai/adminrole/role-list',{
+			adminroles:data
+		});
+	})
+	// res.send("adminrole");
+	/*Role.findAsync().then((data)=>{
 		console.log(data+'fffffff');
 		res.render("houtai/role/role-list",{
 			roles:data
 		});
-	})
+	})*/
 	// Role.fin
 	/*res.render("houtai/role/role-list",{
 			roles:[]
@@ -17,15 +23,28 @@ router.get("/",function(req,res,next){
 
 //角色管理
 router.get("/add",function(req,res,next){
-	res.render("houtai/role/role-add");
+
+	res.render("houtai/adminrole/role-add",{
+		
+	});
 });
 
 //储存角色；
 router.post("/store",function(req,res,next){
-	
+	// res.send(req.body);
 	var roleName=req.body.roleName;
 	var desc=req.body.desc;
-	Role.findOne({roleName:roleName},'',{},function(err,role){
+	AdminRole.storeAdminRole(req,(err,data)=>{
+		if(err){
+			res.json({error:1,result:data});
+			return;
+		}
+		res.json({
+			error:0,
+			result:data
+		});
+	})
+	/*Role.findOne({roleName:roleName},'',{},function(err,role){
 		if(err){
 			return res.json({error:1,result:"出错！"+err});
 		}
@@ -46,34 +65,34 @@ router.post("/store",function(req,res,next){
 			});
 		}
 
-	})
+	})*/
 });
 // ownerRoleUsers
 //角色管理
 router.get("/ownerRoleUsers",function(req,res,next){
-	Role.ownerRoleUsers(req.query._id,function(data){
+	/*Role.ownerRoleUsers(req.query._id,function(data){
 			res.json({
 				result:data
 		});
-	});
+	});*/
 	
 });
 
 
 //角色管理
 router.get("/edit",function(req,res,next){
+	
 	var id=req.query.id;
 	// res.send(id);
 	if(!id){
 		res.send("id不存在！");
 	}
-	// console.log(Role.findOne);
-	Role.findById(id,function(err,data){
+
+	AdminRole.findById(id,function(err,data){
 		if(err){
 			return res.send(err);
 		}
-
-		res.render("houtai/role/role-edit",{
+		res.render("houtai/adminrole/role-edit",{
 			role:data
 		});
 	})
@@ -82,34 +101,37 @@ router.get("/edit",function(req,res,next){
 
 //角色保存
 router.post("/save",function(req,res,next){
-	var id=req.body._id;
+	var _id=req.body._id;
 	// res.send(id);
-	if(!id){
+	if(!_id){
 		res.send("id不存在！");
 	}
 	// Article.findByIdAndUpdate({_id:id},{$set:{}})
 	var roleName=req.body.roleName;
 	var desc=req.body.desc;
-	Role.findByIdAndUpdate({_id:id},{$set:{roleName:roleName,desc:desc}},function(err,data){
-		// data 是一个角色 document;
+	AdminRole.toUpdate({_id:req.body._id},{roleName:roleName,desc:desc},function(err,data){
 		if(err){
-			return res.json({error:1,result:err});
+			res.json({error:1,result:data});
+		}else{
+			res.json({error:0,result:"success"});
 		}
-		return res.json({error:0,result:data});
-	})
+	});
+
 });
 
 router.post("/del",function(req,res,next){
-	var id=req.body._id;
+
+	var _id=req.body._id;
 	// res.send(id);
-	if(!id){
+	if(!_id){
 		res.send("id不存在！");
 	}
+
 	// Article.findByIdAndUpdate({_id:id},{$set:{}})
-	Role.remove({_id:id},function(err,data){
+	AdminRole.del({_id:_id},function(err,data){
 		// data 是一个角色 document;
 		if(err){
-			return res.json({error:1,result:err});
+			return res.json({error:1,result:data});
 		}
 		return res.json({error:0,result:data});
 	})

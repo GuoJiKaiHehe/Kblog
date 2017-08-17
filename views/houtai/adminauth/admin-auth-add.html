@@ -1,0 +1,129 @@
+<%- include ../common/_meta.html%>
+<title>角色</title>
+
+</head>
+<body>
+
+<article class="page-container">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-auth-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="authName" name="authName">
+			</div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">行为：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="action" name="action">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">关联的模块：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="refmodel" name="refmodel">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">行为的类型：</label>
+			<div class="formControls col-xs-5 col-sm-6">
+				<input type="text" class="input-text" value="" placeholder="POST、GET..." id="type" name="type">
+				
+			</div>
+			<span class="tip">默认GET</span>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">备注：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="desc" name="desc">
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+				<button type="submit" class="btn btn-success radius" id="admin-auth-save" name="admin-auth-save"><i class="icon-ok"></i> 确定</button>
+			</div>
+		</div>
+	</form>
+</article>
+
+<%- include ../common/_footer.html%>
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript">
+$(function(){
+
+	$(".permission-list dt input:checkbox").click(function(){
+		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
+	});
+	$(".permission-list2 dd input:checkbox").click(function(){
+		var l =$(this).parent().parent().find("input:checked").length;
+		var l2=$(this).parents(".permission-list").find(".permission-list2 dd").find("input:checked").length;
+		if($(this).prop("checked")){
+			$(this).closest("dl").find("dt input:checkbox").prop("checked",true);
+			$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",true);
+		}
+		else{
+			if(l==0){
+				$(this).closest("dl").find("dt input:checkbox").prop("checked",false);
+			}
+			if(l2==0){
+				$(this).parents(".permission-list").find("dt").first().find("input:checkbox").prop("checked",false);
+			}
+		}
+	});
+	
+	$("#form-admin-auth-add").validate({
+		rules:{
+			authName:{
+				required:true,
+				minlength:4,
+				maxlength:50
+			},
+			action:{
+				required:true
+			},
+			refmodel:{
+				required:true
+			}
+		},
+		messages:{
+			authName:'权限名称是必须的！',
+			refmodel:"关联模块必须填",
+			action:'行为必须填'
+		},
+		onkeyup:false,
+		focusCleanup:true,
+		success:"valid",
+		submitHandler:function(form){
+
+			$(form).ajaxSubmit({
+				type:"post",
+				url:"/houtai/index/adminauth/store",
+				success:function(res){
+					if(res.error==0){
+						layer.msg("添加权限成功！",{
+							icon:1
+						});
+						// $("#form-admin-auth-add").resetForm();
+					}else{
+						layer.msg(res.result,{
+							icon:5
+						});
+					}
+					
+				}
+			});
+			/*var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);*/
+		}
+	});
+});
+</script>
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

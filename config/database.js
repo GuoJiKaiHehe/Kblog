@@ -15,7 +15,7 @@ function connect() {
 
 	db.on("disconnected", function() {
 		console.log('disconnected');
-		dbcon.close();
+		db.close();
 	});
 
 	db.on("open", function() {
@@ -32,10 +32,10 @@ function connect() {
 		console.log('reConnect'); 
 		if(recon_flag){
 			console.log('reConnect-**');  
-			dbcon.open(config.DATABASE_IP, config.DATABASE_NAME, config.PORT,function(){  
+			db.open(config.DATABASE_IP, config.DATABASE_NAME, config.PORT,function(){  
 				console.log('closed-opening');  
 			});  
-		    recon =false;  
+		    recon_flag =false;  
 		    console.log('reConnect-***');  
 		}
 	}

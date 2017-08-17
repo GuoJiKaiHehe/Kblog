@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var User = require(__dirname + "/../models/user.js");
-var Person = require(__dirname + "/../models/person.js");
+// var User = require(__dirname + "/../models/user.js");
+// var Person = require(__dirname + "/../models/person.js");
 /* GET home page. */
 router.use(function(req,res,next){
 	
@@ -34,7 +34,7 @@ router.post('/klogin', function(req, res, next) {
 		})
 	}
 
-	Person.findOne({
+	/*Person.findOne({
 		account: account,
 		pass: pass
 	}, function(err, data) {
@@ -57,7 +57,7 @@ router.post('/klogin', function(req, res, next) {
 				result: "success"
 			});
 		}
-	});
+	});*/
 	// res.send("login");
 });
 

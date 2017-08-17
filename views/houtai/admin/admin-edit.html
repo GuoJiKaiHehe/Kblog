@@ -6,10 +6,11 @@
 <body>
 <article class="page-container">
 	<form class="form form-horizontal" id="form-admin-add">
+	<input type="hidden" name="_id" value="<%=admin._id%>">
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员帐号：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="account" name="account">
+			<input type="text" class="input-text" value="<%=admin.account%>" placeholder="" id="account" name="account">
 		</div>
 	</div>
 	<div class="row cl">
@@ -27,20 +28,20 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员昵称：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="nick" name="nick">
+			<input type="text" class="input-text" value="<%=admin.nick%>" placeholder="" id="nick" name="nick">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员邮箱：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="email" name="email">
+			<input type="text" class="input-text" value="<%=admin.email%>" placeholder="" id="email" name="email">
 		</div>
 	</div>
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>管理员头像：</label>
 		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 		<span class="btn-upload form-group">
-		  <input class="input-text upload-url radius" type="text" name="avatar" id="avatar" readonly>
+		  
 		  <a href="javascript:void();" class="btn btn-primary radius"><i class="iconfont">&#xf0020;</i> 浏览文件</a>
 		  <input type="file" multiple  name="avatarfile"  id="avatarfile" class="input-file">
 		</span>
@@ -50,18 +51,18 @@
 	<div class="row cl avatar-box">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>默认头像：</label>
 		
-		<img src="/images/avatar/default.jpg"  id="avatarimg" alt="" width="50">
+		<img src="<%=avatarPath+admin.avatar%>"  id="avatarimg" alt="" width="50">
 	</div>
 
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>性别：</label>
 		<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 			<div class="radio-box">
-				<input name="sex" type="radio" id="sex-1" value="1" checked>
+				<input name="sex" type="radio" id="sex-1" value="1" <%= admin.sex==1?'checked':''%> >
 				<label for="sex-1">男</label>
 			</div>
 			<div class="radio-box">
-				<input type="radio" id="sex-2" name="sex" value="0">
+				<input type="radio" id="sex-2" name="sex" value="0"<%= admin.sex==0?'checked':''%> >
 				<label for="sex-2">女</label>
 			</div>
 		</div>
@@ -69,7 +70,7 @@
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>手机：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<input type="text" class="input-text" value="" placeholder="" id="phone" name="phone">
+			<input type="text" class="input-text" value="<%=admin.phone%>" placeholder="" id="phone" name="phone">
 
 		</div>
 	</div>
@@ -81,18 +82,24 @@
 		<%adminRoles.forEach(function(item){%>			
 		<span class="checkbox">
 		<label>
+
+		<%if(selectedRoles.indexOf(item._id.toString())!=-1 ){%>
+		<input type="checkbox" value="<%=item._id%>"  class="role" checked>
+		<%}else{%>
 		<input type="checkbox" value="<%=item._id%>"  class="role">
+		<%}%>
 		<%=item.roleName%></label>
+
 		<%})%>
 		</span>
-			<input type="text" name="roles" name="roles" id="roles">
+			<input type="text" value="<%=selectedRoles.join('|')%>"  name="roles" id="roles">
 			</div>
 	</div>
 
 	<div class="row cl">
 		<label class="form-label col-xs-4 col-sm-3">备注：</label>
 		<div class="formControls col-xs-8 col-sm-9">
-			<textarea name="intro" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,100)"></textarea>
+			<textarea name="intro" cols="" rows="" class="textarea"  placeholder="说点什么...100个字符以内" dragonfly="true" onKeyUp="$.limitFont(this,100)"><%=admin.intro%></textarea>
 			<p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
 		</div>
 	</div>
@@ -111,7 +118,19 @@
 <script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/validate-methods.js"></script> 
 <script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/messages_zh.js"></script> 
 <script type="text/javascript">
+
 $(function(){
+$.limitFont=function(o,num){
+	o.limitSize=num;
+	var box=$(o).parent();
+	var writeInSizeDom=box.find(".textarea-length");
+	;
+	writeInSizeDom.text(num-$(o).val().length);
+
+}
+$.limitFont($('.textarea')[0],100);
+
+
 var roles=$(".role");
 
 $(".role").on("change",function(){
@@ -167,17 +186,17 @@ $(".role").on("change",function(){
 				maxlength:16
 			},
 			pass:{
-				required:true,
+				
 			},
 			password2:{
-				required:true,
+				
 				equalTo: "#pass"
 			},
 			sex:{
 				required:true,
 			},
 			phone:{
-				required:true,
+				
 				isPhone:true,
 			},
 			email:{
@@ -194,12 +213,12 @@ $(".role").on("change",function(){
 		submitHandler:function(form){
 			$(form).ajaxSubmit({
 				type: 'post',
-				url: "/houtai/index/admin/store" ,
+				url: "/houtai/index/admin/save" ,
 
 				success: function(response){
 					if(response.error==0){
 						//success;
-						 $("#form-admin-add").resetForm();
+						// $("#form-admin-add").resetForm();
 
 						layer.msg(response.result,{icon:1,time:1000});
 					}else{

@@ -8,5 +8,6 @@ module.exports={
 	DATABASE_NAME:'myblog',
 	DATABASE_URL:'mongodb://jikai:978352@103.76.85.214/myblog',
 	avatarPath:"/images/avatar/",
-	ADMIN_STATIC_PATH:'/lib/admin/'//后台模版静态文件路劲；
+	ADMIN_STATIC_PATH:'/lib/admin/',//后台模版静态文件路劲；
+	upAvatarPath:__dirname+'/../public/images/avatar'
 }

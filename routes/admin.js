@@ -1,22 +1,350 @@
 const express=require("express");
 const router=express.Router();
-const Role=require(__dirname+"/../models/role.js");
-//角色管理
+const AdminRole=require(__dirname+"/../models/AdminRole.js");
+const Admin=require(__dirname+"/../models/Admin.js");
+const formidable=require("formidable");
+const util=require("util");
+const fs=require("fs");
+const config=require(__dirname+"/../config/index.js");
+const lib=require(__dirname+"/../lib/index.js");
+const gm=require("gm");
+
+const limit=5;
+
 router.get("/",function(req,res,next){
-	Role.findAsync().then((data)=>{
-		console.log(data+'fffffff');
-		res.render("houtai/role/role-list",{
-			roles:data
-		});
+	// res.send(req);
+	// res.send(req.originalUrl);
+	// res.send(req.query);
+	var page=1;
+	if(req.query.page){
+		page=parseInt(req.query.page);
+	}
+	if(isNaN(page)){
+		res.send("page is not number");
+	}
+	var match={
+
+	};
+	var opts={
+		limit:limit,
+		skip:(page-1)*limit,
+		sort:{
+			createAt:-1
+		}
+	};
+
+	if(req.query.keyword){
+		var reg=new RegExp(req.query.keyword,'i');
+		match.$or=[
+			{nick:{$regex:reg} },
+			{account:{$regex:reg}}
+		];
+
+		// match.createAt={$gt}
+
+	};
+	if(req.query.s){
+		var  s=parseInt(req.query.s);
+		
+		if(!isNaN(s)){
+			match.createAt={};
+			match.createAt.$gt=s;
+			 console.log(match);
+		}
+		
+
+	}
+
+	// console.log(match);
+	if(req.query.max){
+		var end=parseInt(req.query.max);
+		if(!isNaN(end)){
+			match.createAt.$lt=end;
+		}
+	}
+	
+	var select={
+
+	};
+	console.log(page);
+	Admin.getAdmins(match,select,opts,(err,data)=>{
+			// console.log(admins);
+			var totalPage=Math.ceil(data.total/limit);
+			// if(totalPage){}
+			// if(page>totalPage){
+			// 	res.send("page gt totalPage");
+			// }
+			var pages=lib.getPages(page, limit, data.total,req.query);
+			res.render("houtai/admin/admin-list",{
+				admins:data.admins,
+				pages:pages,
+				keyword:req.query.keyword,
+				mindate:new Date(parseInt(req.query.s)).Format('yyyy-MM-dd'),
+				maxdate:req.query.max ? new Date(parseInt(req.query.max)).Format('yyyy-MM-dd'):''
+			})
 	})
-	// Role.fin
-	/*res.render("houtai/role/role-list",{
-			roles:[]
-	});*/
+	
+});
+/*var result=User.find({ 
+		$or:[
+		 	{nick:{$regex:reg}},
+            { email:{$reg:reg}}
+            ],
+           {
+    			password:'',
+           },
+	{
+	sort:{_id:-1},
+	limit:100;
+}
+})*/
+
+
+
+
+router.get("/search",function(req,res){
+	var match={
+
+	};
+	var opts={
+		limit:5,
+		skip:0,
+		sort:{
+			createAt:-1
+		}
+	};
+	var select={
+
+	};
+
+	Admin.getAdmins(match,select,opts,(err,admins)=>{
+		res.render("houtai/admin/admin-list",{
+			adminRoles:data
+		})
+	})
+})
+
+router.get("/add",function(req,res){
+	// res.send("333");
+	AdminRole.getAdminRoles(function(err,data){
+		res.render("houtai/admin/admin-add",{
+			adminRoles:data
+		})
+	});
+	
+})
+
+/**
+{ avatarfile: 
+  File {
+    domain: null,
+    _events: {},
+    _eventsCount: 0,
+    _maxListeners: undefined,
+    size: 620888,
+    path: 'C:\\Users\\ADMINI~1\\AppData\\Local\\Temp\\upload_6318fdb97399f4689cdc7d6cc94fba87',
+    name: 'Tulips.jpg',
+    type: 'image/jpeg',
+    hash: null,
+    lastModifiedDate: 2017-08-12T04:08:56.698Z,
+    _writeStream: [Object] } } }
+*/
+router.post("/store",function(req,res){
+	// res.send(req.body);
+	// var a=;
+	/*res.send(req.body.account);
+	if(!req.body.avatarfile){
+		res.json({error:1,result:"file not find"});
+	}*/
+
+	var form=new formidable.IncomingForm();
+	 form.maxFieldsSize = 2 * 1024;
+	 form.keepExtensions=true; //保持跨站名；
+	 // form.uploadDir
+	 form.encoding='utf-8';
+	form.parse(req,function(err,fields,files){
+		// res.send(files);
+		if(!files){
+		res.json({error:1,result:"file not find"});
+		}
+		// files.avatarfile.name 
+		//files.avarfile.path;
+		// res.send(files);
+		if(!files){
+			res.json({error:1,result:"file not find"});
+		}
+		if(err){
+			res.json({error:1,result:err.message});
+		}else{
+			 if(files){
+
+				 if(!files.avatarfile.type.match(/image/g)){
+				 	res.json({error:1,result:"不是图片类型！"});
+				 }
+				 var avatarname=lib.unique()+files.avatarfile.name;
+				 var newpath=config.upAvatarPath+'/'+avatarname
+				 var write=fs.createWriteStream(newpath);
+				 var read=fs.createReadStream(files.avatarfile.path);
+				 read.on("data",function(d){
+				 	write.write(d);
+				 })
+				 read.on("error",function(err){
+				 	res.send(err)
+				 })
+				 read.on("end",function(){
+				 	write.end();
+				 	//修改图片大小；	
+				 	// 
+				 	lib.resize(newpath,50,50,newpath,function(err,resiData){
+				 		if(!err){
+				 				fields.avatar=avatarname;
+							 	Admin.addAdmin(fields,function(err,data){
+								if(err){
+									res.json({error:1,result:data});
+								}else{
+									res.json({error:0,result:'success'});
+								}
+							})
+				 		}
+				 	})
+				 		
+				 })
+				}else{
+					Admin.addAdmin(fields,function(err,data){
+						if(err){
+							res.json({error:1,result:data});
+						}else{
+							res.json({error:0,result:'success'});
+						}
+					})
+				}
+			
+		}
+		
+	})
+
+
+
+
+})
+
+router.get("/edit",function(req,res){
+	if(!req.query.id){
+		res.send("id不存在！");
+	}
+	AdminRole.getAdminRoles(function(err,data){
+		
+		Admin.findOne({_id:req.query.id},(err,admin)=>{
+			if(err){
+				res.json({error:1,result:err.message});
+			}
+			var selectedRoles=[];
+			admin.roles.forEach((item)=>{
+				selectedRoles.push(item.toString());
+			});
+			res.render("houtai/admin/admin-edit",{
+				adminRoles:data,
+				admin:admin,
+				selectedRoles:selectedRoles
+			})
+		})
+		
+	});
+});
+router.post("/save",function(req,res){
+
+	if(!req.body._id){
+		res.json({error:1,result:'id不存在！'});
+	}
+	var obj=req.body;
+	
+	Admin.findByIdAndUpdate(req.body._id,{$set:{
+		account:obj.account,
+		pass:obj.pass,
+		nick:obj.nick,
+		phone:obj.phone||'',
+		sex:obj.sex,
+		roles:obj.roles.split("|"),
+		intro:obj.intro,
+		email:obj.email,
+		avatar:obj.avatar
+	}},function(err,data){
+		if(err){
+			res.json({error:1,result:err.message});
+		}else{
+			res.json({error:0,result:data})
+		}
+	})
+	
+});
+router.post("/del",function(req,res){
+	var _id=req.body._id;
+	if(!_id){
+		res.json({error:1,result:'_id 不存在!'});
+	}
+	Admin.remove({_id:_id},function(err,data){
+		if(err){
+			res.json({error:1,result:err.message});
+		}else{
+			res.json({error:0,result: data});
+		}
+	});
 });
 
+router.post("/disable",function(req,res){
+
+
+	var _id=req.body._id;
+	if(!_id){
+		res.json({
+			error:1,
+			result:"id 不存在！"
+		})
+		return;
+	}
+
+	Admin.updateStatus('disable',{"_id":_id},function(err,data){
+		if(err){
+			res.json({
+				error:1,
+				result:"服务器出错！"
+			})
+		}else{
+			res.json({
+				error:0,
+				result:"success"
+			})
+		}
+	});
+
+});
+
+router.post("/enable",function(req,res){
+	var _id=req.body._id;
+	if(!_id){
+		res.json({
+			error:1,
+			result:"id 不存在！"
+		})
+		return;
+	}
+	Admin.updateStatus('enable',{_id:_id},function(err,data){
+		if(err){
+			res.json({
+				error:1,
+				result:"服务器出错！"
+			})
+		}else{
+			res.json({
+				error:0,
+				result:"success"
+			})
+		}
+	});
+});
+module.exports=router;
 //角色管理
-router.get("/add",function(req,res,next){
+/*router.get("/add",function(req,res,next){
 	res.render("houtai/role/role-add");
 });
 
@@ -47,10 +375,10 @@ router.post("/store",function(req,res,next){
 		}
 
 	})
-});
+});*/
 // ownerRoleUsers
 //角色管理
-router.get("/ownerRoleUsers",function(req,res,next){
+/*router.get("/ownerRoleUsers",function(req,res,next){
 	Role.ownerRoleUsers(req.query._id,function(data){
 			res.json({
 				result:data
@@ -114,5 +442,4 @@ router.post("/del",function(req,res,next){
 		return res.json({error:0,result:data});
 	})
 });
-
-module.exports=router;
+*/

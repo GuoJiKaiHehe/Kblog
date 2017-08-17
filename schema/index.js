@@ -20,32 +20,50 @@ exports.ActionSchema = new Schema({
 //管理员可以管理：用户；
 //自定义角色，然后再分配权限；使其拥有不同的管理能力；这是超级管理员具备的能力；
 
-exports.AuthAdminSchema = new Schema({
+exports.AdminAuthSchema = new Schema({
     authName: {
         type: String,
         required: true,
         index: true
     },
-    Actions:{
-        todo:String
+    refmodel:{
+        type:String
+    },
+    action:{
+        type:String
     }, //多个行为； 一个权限有多个行为；
-    
+    desc:{
+        type:String
+    },
+    type:{
+        type:String,
+        default:"GET"
+    }
 });
-
-exports.AuthUserSchema = new Schema({
+exports.UserAuthSchema = new Schema({
     authName: {
         type: String,
         required: true,
         index: true
     },
-    Actions:{
-        todo:String
+    refmodel:{
+        type:String
+    },
+    action:{
+        type:String
     }, //多个行为； 一个权限有多个行为；
+    desc:{
+        type:String
+    },
+    type:{
+        type:String,
+        default:"GET"
+    }
     
 });
 
 //角色管理:超级管理员，管理员，用户；
-exports.RoleSchema = new Schema({
+exports.AdminRoleSchema = new Schema({
     roleName: {
         type: String,
         required: true,
@@ -55,9 +73,9 @@ exports.RoleSchema = new Schema({
         type:String,
         default:"是一个人"
     },
-    Auths: [{
+    auths: [{
         type:ObjectId,
-        ref:"Auth"
+        ref:"AdminAuth"
     }]  //一个角色可以有多种权限；
 });
 
@@ -75,15 +93,12 @@ exports.UserRoleSchema = new Schema({
     },
     Auths: [{
         type:ObjectId,
-        ref:"Auth"
+        ref:"UserAuth"
     }]  //一个角色可以有多种权限；
 });
 
-
-
-// 管理员；
-/*exports.AdminSchema = new Schema({
-    name: {
+exports.AdminSchema=new Schema({
+    account: {
         type: String,
         index: true,
         required: true
@@ -91,10 +106,49 @@ exports.UserRoleSchema = new Schema({
     pass: {
         type: String,
         required: true
-    }
-});*/
+    },
+    nick:{
+        type:String,
+        index:true,
+        required:true
+    },
+    phone:{
+        type:Number
+    },
+    avatar:{
+        type:String,
+        default:"default.jpg"
+    },
+    email:{
+        type:String
+    },
+    sex:{
+        type:Number,
+        default:1  //默认1 是男  0是女；
+    },
+    intro:{
+        type:String,
+        default:''
+    },
+    createAt:{
+        type:Date,
+        default:Date.now()
+    },
+    isEnable:{
+        type:Boolean,  //是否启用
+        default:true
+    },
+    roles:[{
+        type:ObjectId,
+        ref:"AdminRole"
+    }],
+    updateAt:{
+        type:Date,
+        default:Date.now()
+    },
+})
 
-exports.PersonSchema=new Schema({
+exports.UserSchema=new Schema({
     account: {
         type: String,
         index: true,
@@ -121,6 +175,12 @@ exports.PersonSchema=new Schema({
         type:String,
         default:''
     },
+    roles:[
+        {
+            type:ObjectId,
+            ref:"UserRole"
+        }
+    ],  
     createAt:{
         type:Date,
         default:Date.now()
@@ -135,30 +195,6 @@ exports.PersonSchema=new Schema({
     },
 })
 
-//先有用户=> 普通用户的分数永远是1；分数大于等于2 则为管理员；
-//联想到，登录，注册， （多用户还是单用户）
-exports.UserSchema = new Schema({
-    pid:{  //指向person
-        type:ObjectId,
-        ref:"Person"
-    },
-    
-    roles:[{
-        type:ObjectId,
-        ref:"UserRole"
-    }]  //用户可以有多中角色；
-});
-
-exports.AdminSchema = new Schema({
-    pid:{  //指向person
-        type:ObjectId,
-        ref:"Person"
-    },
-    roles:[{
-        type:ObjectId,
-        ref:"Role"
-    }]  //用户可以有多中角色；
-});
 
 
 exports.TagCategorySchema=new Schema({
@@ -348,3 +384,16 @@ exports.MessageSchema = new Schema({
     }
 });
 // mongoose.model("Message", MessageSchema);
+
+//网站管理；
+exports.SiteSchema = new Schema({
+    // model
+});
+exports.ModelSchema=new Schema({
+    name:"",
+    methods:[],
+    statics:[],
+    desc:{
+        type:String
+    }
+})

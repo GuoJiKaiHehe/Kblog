@@ -1,7 +1,8 @@
-﻿<%-include ../common/_meta.html%>
+<%-include ../common/_meta.html%>
 <title>会员列表</title>
 </head>
 <body>
+
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 会员管理 <span class="c-gray en">&gt;</span> 会员列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c"> 日期范围：
@@ -66,6 +67,14 @@
 			
 		</tbody>
 	</table>
+	<%-renderPage%>
+	<!-- <ul class="pagination"><li><a href="#">&laquo;</a></li>
+	    <li><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li><a href="#">&raquo;</a></li></ul> -->
 </div>
 <%-include ../common/_footer.html%>
 

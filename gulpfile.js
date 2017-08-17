@@ -16,7 +16,7 @@ gulp.task('nodemon', function(cb) {
     flag=false;
     var started = false;
     return nodemon({
-      script: './bin/www'
+      script: "./bin/www"
     }).on('start', function() {
       if (!started) {
         cb();

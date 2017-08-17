@@ -1,19 +1,17 @@
 const express=require("express");
 const router=express.Router();
-const UserRole=require(__dirname+"/../models/userRole.js");
+// const UserRole=require(__dirname+"/../models/userRole.js");
 //角色管理
 router.get("/",function(req,res,next){
+	
 	/*UserRole.findAsync().then((data)=>{
 		// console.log(data+'fffffff');
-		
-	})*/
-	UserRole.findAsync().then((data)=>{
-		// console.log(data+'fffffff');
+		// res.cookie("name","guojikai",{signed:true});
 			res.render("houtai/userRole/userRole-list",{
 			roles:data
 		});
 	})
-	
+	*/
 
 	// res.send("333");
 	// Role.fin
@@ -23,7 +21,7 @@ router.get("/",function(req,res,next){
 });
 
 //角色管理
-router.get("/add",function(req,res,next){
+/*router.get("/add",function(req,res,next){
 	res.render("houtai/userRole/userRole-add");
 });
 
@@ -108,7 +106,7 @@ router.post("/del",function(req,res,next){
 		}
 		return res.json({error:0,result:data});
 	})
-});
+});*/
 
 /*
 // ownerRoleUsers
