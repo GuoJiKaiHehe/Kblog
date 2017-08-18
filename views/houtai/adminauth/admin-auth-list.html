@@ -6,8 +6,8 @@
 <div class="page-container">
 	<div class="text-c">
 		<form class="Huiform" method="post" action="" target="_self">
-			<input type="text" class="input-text" style="width:250px" placeholder="权限名称" id="" name="">
-			<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限节点</button>
+			<input type="text" class="input-text" style="width:250px" placeholder="权限名称或模块名称" id="search_text" value="<%-keyword%>" name="search">
+			<button type="submit" class="btn btn-success" id="search_btn" name=""><i class="">&#xe665;</i> 搜索权限</button>
 		</form>
 	</div>
 	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a href="javascript:;" onclick="admin_permission_add('添加权限节点','/houtai/index/adminauth/add','','310')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限节点</a></span> <span class="r">共有数据：<strong>54</strong> 条</span> </div>
@@ -75,7 +75,10 @@ function admin_permission_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		$.ajax({
 			type: 'POST',
-			url: '',
+			url: '/houtai/index/adminauth/del',
+			data:{
+				id:id
+			},
 			dataType: 'json',
 			success: function(data){
 				$(obj).parents("tr").remove();
@@ -87,6 +90,49 @@ function admin_permission_del(obj,id){
 		});		
 	});
 }
+
+var parseQuery = function(query){
+    var reg = /([^=&\s]+)[=\s]*([^=&\s]*)/g;
+    var obj = {};
+    while(reg.exec(query)){
+        obj[RegExp.$1] = RegExp.$2;
+    }
+    return obj;
+}
+
+
+
+$("#search_btn").click(function(e){
+	e.stopPropagation();
+	e.preventDefault();
+	var keyword=$('#search_text').val();
+	if(!keyword){
+		location.href="./";
+	}
+	var query=location.search.substr(1);
+	var obj=parseQuery(query);
+	if(!keyword==''){
+		obj.keyword=keyword;
+	}else{
+		delete obj.keyword;
+	}
+
+	var querystr=urlEncode(obj);
+	location.href='?'+querystr;
+	
+})
+
+function urlEncode(obj){
+	var str='';
+	for(var k in obj){
+		str+=encodeURIComponent(k)+'='+encodeURIComponent(obj[k])+'&';
+	}
+	str=str.slice(0,-1);
+	return str;
+}
+
+
+
 </script>
 </body>
 </html>

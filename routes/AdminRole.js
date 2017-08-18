@@ -1,6 +1,8 @@
 const express=require("express");
 const router=express.Router();
 const AdminRole=require(__dirname+"/../models/AdminRole.js");
+const AdminAuth=require(__dirname+"/../models/AdminAuth.js");
+const async=require("async");
 //角色管理
 router.get("/",function(req,res,next){
 	AdminRole.getAdminRoles({},function(err,data){
@@ -87,20 +89,45 @@ router.get("/edit",function(req,res,next){
 	if(!id){
 		res.send("id不存在！");
 	}
-
-	AdminRole.findById(id,function(err,data){
-		if(err){
-			return res.send(err);
+	async.series({
+		adminRole:function(cb){
+			AdminRole.findById(id,function(err,data){
+				if(err){
+					return res.send(err);
+					cb(err);
+				}else{
+					cb(null,data);
+				}
+				
+			})
+		},
+		getAuths:function(cb){
+			AdminAuth.getAuthsAndGroupByModel({},{},{},function(err,data){
+					if(err){
+						cb(err);
+					}else{
+						cb(null,data);
+					}
+			});
 		}
-		res.render("houtai/adminrole/role-edit",{
-			role:data
-		});
-	})
+	},function(err,result){
+
+		if(err){
+			res.send(err);
+		}else{
+			res.render("houtai/adminrole/role-edit",{
+				role:result.adminRole,
+				modelAuths:result.getAuths
+			});
+		}	
+	});
+	
 	// res.send('333');
 });
 
 //角色保存
 router.post("/save",function(req,res,next){
+
 	var _id=req.body._id;
 	// res.send(id);
 	if(!_id){
@@ -109,7 +136,13 @@ router.post("/save",function(req,res,next){
 	// Article.findByIdAndUpdate({_id:id},{$set:{}})
 	var roleName=req.body.roleName;
 	var desc=req.body.desc;
-	AdminRole.toUpdate({_id:req.body._id},{roleName:roleName,desc:desc},function(err,data){
+	var auths=req.body.rolesid.split('|');
+	
+	AdminRole.toUpdate({_id:req.body._id},{
+		roleName:roleName,
+		desc:desc,
+		auths:auths
+	},function(err,data){
 		if(err){
 			res.json({error:1,result:data});
 		}else{

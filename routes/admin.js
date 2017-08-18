@@ -79,7 +79,7 @@ router.get("/",function(req,res,next){
 				admins:data.admins,
 				pages:pages,
 				keyword:req.query.keyword,
-				mindate:new Date(parseInt(req.query.s)).Format('yyyy-MM-dd'),
+				mindate:req.query.s? new Date(parseInt(req.query.s)).Format('yyyy-MM-dd'):'',
 				maxdate:req.query.max ? new Date(parseInt(req.query.max)).Format('yyyy-MM-dd'):''
 			})
 	})

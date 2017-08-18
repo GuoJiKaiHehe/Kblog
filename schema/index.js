@@ -389,11 +389,52 @@ exports.MessageSchema = new Schema({
 exports.SiteSchema = new Schema({
     // model
 });
-exports.ModelSchema=new Schema({
-    name:"",
-    methods:[],
-    statics:[],
+exports.ModuleSchema=new Schema({
+    name:{
+
+    },
+    methods:{
+        type:Array,
+        default:[]
+    },
+    statics:{
+        type:Array,
+        default:[]
+    },
+    routes:{
+        type:Array,
+        default:[]
+    },
     desc:{
         type:String
     }
-})
+});
+exports.MenuSchema=new Schema({
+    pid:{
+        type:Number,
+        default:0  //父级菜单；
+    },
+    name:{
+        type:String
+    },
+    icon:{
+        type:String,
+        default:''
+    },
+    href:{
+        type:String
+    }
+});
+
+exports.IndexSchema=new Schema({
+    leftMenu:[{
+          type:ObjectId,
+          ref:"Menu"
+        }],
+    title:{
+        type:String,
+        default:"Kblog后台管理"
+    }
+});
+
+

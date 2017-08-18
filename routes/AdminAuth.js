@@ -28,9 +28,17 @@ router.get("/",function(req,res,next){
 	opts={
 		limit:limit,
 		skip:(page-1)*limit,
-		
-	}
+	};
+	if(req.query.keyword){
+		var reg=new RegExp(req.query.keyword,'i');
+		match.$or=[
+			{authName:{$regex:reg} },
+			{refmodel:{$regex:reg}}
+		];
+		// match.createAt={$gt}
 
+	};
+	console.log(match);
 	AdminAuth.getAuths(match,select,opts,function(err,data){
 		
 		if(err){
@@ -45,7 +53,8 @@ router.get("/",function(req,res,next){
 			 	title:"管理员权限",
 			 	adminAuths:data.adminAuths,
 			 	total:data.total,
-			 	pages:pages
+			 	pages:pages,
+			 	keyword:req.keyword
 			 })
 		}
 	})
@@ -70,6 +79,73 @@ router.post("/store",function(req,res){
 			res.json({
 				error:0,
 				result:'success'
+			})
+		}
+	})
+});
+router.get('/edit',function(req,res){
+	var _id=req.query.id;
+	if(!_id){
+		res.send("_id不存在@");
+	}
+	AdminAuth.findOne({_id:_id},function(err,data){
+		if(err){
+			res.send("服务器出错！");
+		}else{
+			if(data){
+				// console.log(data);
+				res.render('houtai/adminauth/admin-auth-edit',{
+					adminAuth:data
+				})
+			}else{
+				res.send("_id有误！");
+			}
+		}
+	});
+});
+
+router.post("/save",function(req,res){
+	var _id=req.body.id;
+	if(!_id){
+		res.send("id 不存在");
+	}
+
+	AdminAuth.findOneAndUpdate({_id:_id},{$set:{
+		authName:req.body.authName,
+		action:req.body.action,
+		refmodel:req.body.refmodel,
+		type:req.body.type,
+		desc:req.body.desc
+	}},function(err,data){
+		if(err){
+			res.json({
+				error:1,
+				result:"修改出错@"
+			})
+		}else{
+			res.json({
+				error:0,
+				result:"success"
+			})
+		}
+	})
+});
+
+router.post("/del",function(req,res){
+	var _id=req.body.id;
+	if(!_id){
+		res.send("id 不存在");
+	}
+	AdminAuth.findOneAndRemove({_id:_id},function(err,adminauth){
+		if(!err){
+			res.json({
+				error:0,
+				result:adminauth
+			})
+		}else{
+			res.json({
+				error:1,
+				result:err.message
 			})
 		}
 	})

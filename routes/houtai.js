@@ -25,7 +25,8 @@ module.exports = function(app){
 	});
 	app.use(function(req,res,next){
 		//判断权限；
-	/*	async.series({
+		// res.send(req.session.adminRoles);
+		/*async.series({
 			checkAuth:function(cb){
 							   //发送过去一个数组；
 				AdminRole.checkAuth(req.session.adminRoles,function(err,r){
@@ -55,6 +56,8 @@ module.exports = function(app){
 	app.use("/houtai/index/adminrole",require('./AdminRole.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/adminauth",require('./AdminAuth.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/admin",require('./Admin.js')); //guanliyuan角色管理；
+	app.use("/houtai/index/module",require('./Module.js')); //模块管理；
+	app.use("/houtai/index/menu",require('./Menu.js')); //菜单管理；
 	// app.use("/houtai/index/user",require('./user.js')); //用户管理；
 	// app.use("/houtai/index/userRole",require('./userRole.js')); //用户角色管理；
 	return router;

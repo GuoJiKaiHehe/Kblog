@@ -1,49 +1,45 @@
-<%- include ../common/_meta.html%>
+﻿<%- include ../common/_meta.html%>
 <title>角色</title>
-
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 
 <article class="page-container">
-	<form action="" method="post" class="form form-horizontal" id="form-admin-auth-edit">
-	<input type="hidden" name="id" value="<%=adminAuth._id%>">
+	<form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>菜单名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="<%=adminAuth.authName%>" placeholder="" id="authName" name="authName">
-			</div>
-		</div>
-		
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">行为：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="<%=adminAuth.action%>" placeholder="" id="action" name="action">
+				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">关联的模块：</label>
+			<label class="form-label col-xs-4 col-sm-3">小图标</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="<%=adminAuth.refmodel%>" placeholder="" id="refmodel" name="refmodel">
+				<input type="text" class="input-text" value="" placeholder="" id="" name="icon">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">行为的类型：</label>
-			<div class="formControls col-xs-5 col-sm-6">
-				<input type="text" class="input-text" value="<%=adminAuth.type%>" placeholder="POST、GET..." id="type" name="type">
-				
+			<label class="form-label col-xs-4 col-sm-3">路由连接</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="" placeholder="" id="" name="href">
 			</div>
-			<span class="tip">默认GET</span>
 		</div>
 
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">备注：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="<%=adminAuth.desc%>" placeholder="" id="desc" name="desc">
-			</div>
+			<label class="form-label col-xs-4 col-sm-3">所属于</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+				<select class="select" size="1" name="pid">
+					<option value="" selected="">默认select</option>
+					<option value="1">菜单一</option>
+					<option value="2">菜单二</option>
+					<option value="3">菜单三</option>
+				</select>
+				</span> </div>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
-				<button type="submit" class="btn btn-success radius" id="admin-auth-save" name="admin-auth-save"><i class="icon-ok"></i> 确定</button>
+				<button type="submit" class="btn btn-success radius" id="admin-role-save" name="admin-role-save"><i class="icon-ok"></i> 确定</button>
 			</div>
 		</div>
 	</form>
@@ -57,7 +53,6 @@
 <script type="text/javascript" src="<%=staticPath%>lib/jquery.validation/1.14.0/messages_zh.js"></script>
 <script type="text/javascript">
 $(function(){
-
 	$(".permission-list dt input:checkbox").click(function(){
 		$(this).closest("dl").find("dd input:checkbox").prop("checked",$(this).prop("checked"));
 	});
@@ -78,24 +73,16 @@ $(function(){
 		}
 	});
 	
-	$("#form-admin-auth-edit").validate({
+	$("#form-admin-role-add").validate({
 		rules:{
-			authName:{
+			roleName:{
 				required:true,
 				minlength:4,
 				maxlength:50
 			},
-			action:{
-				required:true
-			},
-			refmodel:{
-				required:true
-			}
 		},
 		messages:{
-			authName:'权限名称是必须的！',
-			refmodel:"关联模块必须填",
-			action:'行为必须填'
+			roleName:'角色名称是必须的！'
 		},
 		onkeyup:false,
 		focusCleanup:true,
@@ -104,13 +91,13 @@ $(function(){
 
 			$(form).ajaxSubmit({
 				type:"post",
-				url:"/houtai/index/adminauth/save",
+				url:"/houtai/index/adminrole/store",
 				success:function(res){
 					if(res.error==0){
-						layer.msg("修改权限成功！",{
+						layer.msg("添加角色成功！",{
 							icon:1
 						});
-						// $("#form-admin-auth-edit").resetForm();
+						$("#form-admin-role-add").resetForm();
 					}else{
 						layer.msg(res.result,{
 							icon:5

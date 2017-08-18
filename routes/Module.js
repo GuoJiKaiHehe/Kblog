@@ -1,7 +1,7 @@
 const express=require("express");
 const router=express.Router();
-const Model=require(__dirname+"/../models/Model.js");
-
+const Module=require(__dirname+"/../models/Module.js");
+//用于储存多模块名与其之间的关联；
 
 const util=require("util");
 const fs=require("fs");
@@ -10,6 +10,9 @@ const lib=require(__dirname+"/../lib/index.js");
 const gm=require("gm");
 
 
+router.get("/",function(req,res){
+	
+});
 
 
 
