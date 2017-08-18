@@ -411,8 +411,12 @@ exports.ModuleSchema=new Schema({
 });
 exports.MenuSchema=new Schema({
     pid:{
-        type:Number,
-        default:0  //父级菜单；
+        type:String,
+        default:'0' //父级菜单；
+    },
+    parentName:{
+        type:String,
+        default:''
     },
     name:{
         type:String

@@ -54,13 +54,19 @@ AdminRoleSchema.statics.toUpdate=function(match,set,cb){
 
 }
 AdminRoleSchema.statics.del=function(match,cb){
-	this.model("AdminRole").remove(match,(err,data)=>{
-		if(err){
-			cb(1,err.message);
-		}else{
-			cb(0,data);
-		}
-	})
+	this.model("AdminRole").findOneAndRemove(match,function(err,data){
+				if(err){
+					cb(1,err.message);
+				}else{
+					if(data){
+						cb(0,data);
+					}else{
+						cb(1,'没有此数据！');
+					}
+					
+				}
+	});
+
 }
 /*AdminRoleSchema.statics.ownerRoleUsers=function(role_id,cb){
 	User.find({}).exec(function(err,data){
@@ -78,7 +84,16 @@ AdminRoleSchema.statics.del=function(match,cb){
 		cb(result);
 	})
 };*/
+AdminRoleSchema.statics.checkAuth=function(roles,cb){
+	/*this.model("AdminRole").find({},{})
+						   .populate({
+						   		path:'auths',
+						   		select:'type action'
+							})
+						   .exec(()=>{
 
+						   })*/
+}
 const AdminRole=mongoose.model("AdminRole",AdminRoleSchema);
 Promise.promisifyAll(AdminRole);
 module.exports=AdminRole;

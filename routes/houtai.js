@@ -23,9 +23,9 @@ module.exports = function(app){
 			res.redirect("/houtai/login");
 		}
 	});
+
 	app.use(function(req,res,next){
-		//判断权限；
-		// res.send(req.session.adminRoles);
+		res.send(req.session.adminRoles);
 		/*async.series({
 			checkAuth:function(cb){
 							   //发送过去一个数组；
@@ -41,6 +41,12 @@ module.exports = function(app){
 
 		});*/
 
+	});
+	app.use(function(req,res,next){
+		//判断权限；
+		//console.log('bbb');
+		// res.end("bbb");
+		
 		res.locals.adminRoles=req.session.adminRoles;
 		res.locals.adminId=req.session.adminId;
 		res.locals.adminNick=req.session.adminNick;
@@ -53,18 +59,22 @@ module.exports = function(app){
 	})
 
 	app.use("/houtai/index",routerIndex);
+
 	app.use("/houtai/index/adminrole",require('./AdminRole.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/adminauth",require('./AdminAuth.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/admin",require('./Admin.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/module",require('./Module.js')); //模块管理；
 	app.use("/houtai/index/menu",require('./Menu.js')); //菜单管理；
+	app.use("/houtai/index/api",require('./api.js')); //API管理；
+
 	// app.use("/houtai/index/user",require('./user.js')); //用户管理；
 	// app.use("/houtai/index/userRole",require('./userRole.js')); //用户角色管理；
 	return router;
 };
 /* GET home page. */
 routerIndex.get('/', function(req, res, next) {
- 	console.log(req.session);
+
+ 	// console.log(req.session);
   res.render('houtai/index', { title: '首页' });
 });
 /* GET home page. */
@@ -104,7 +114,7 @@ router.post("/checklogin",function(req,res,next){
 				_id:1,
 				avatar:1,
 				isEnable:1,
-				roles:1}).populate({path:"roles",select:''})
+				roles:1}).populate({path:"roles",select:'_id roleName'})
 						 .exec(function(err,data){
 						if(err){
 							cb('服务器出错！','服务器出错！')

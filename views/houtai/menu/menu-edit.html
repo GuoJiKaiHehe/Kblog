@@ -7,22 +7,23 @@
 
 <article class="page-container">
 	<form action="" method="post" class="form form-horizontal" id="form-admin-role-add">
+	<input type="hidden"  name="id" value="<%=menu._id%>">
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>菜单名称：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="name" name="name">
+				<input type="text" class="input-text" value="<%=menu.name%>" placeholder="" id="name" name="name">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">小图标</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="icon">
+				<input type="text" class="input-text" value="<%=menu.icon%>" placeholder="" id="" name="icon">
 			</div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">路由连接</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="" placeholder="" id="" name="href">
+				<input type="text" class="input-text" value="<%=menu.href%>" placeholder="" id="" name="href">
 			</div>
 		</div>
 
@@ -83,7 +84,12 @@ $(function(){
 					var html='';
 					html+='<option value="0" selected="">顶级菜单</option>'
 					for(var i=0;i<res.result.length;i++){
-						html+='<option value="'+res.result[i]._id+'" >'+new Array(res.result[i].__v).join('--')+res.result[i].name+'</option>'
+						if(res.result[i]._id=='<%=menu.pid%>'){
+							html+='<option value="'+res.result[i]._id+'"selected="" >'+new Array(res.result[i].__v).join('--')+res.result[i].name+'</option>'
+						}else{
+							html+='<option value="'+res.result[i]._id+'" >'+new Array(res.result[i].__v).join('--')+res.result[i].name+'</option>'
+						}
+						
 					}
 					$("#pid").html(html);
 				}else{
@@ -112,14 +118,13 @@ showMenus();
 			var loadindex=layer.load();
 			$(form).ajaxSubmit({
 				type:"post",
-				url:"/houtai/index/menu/store",
+				url:"/houtai/index/menu/save",
 				success:function(res){
 					layer.close(loadindex);
 					if(res.error==0){
-						layer.msg("添加菜单成功！",{
+						layer.msg("菜单修改成功！",{
 							icon:1
 						});
-						showMenus();
 						// $("#form-admin-role-add").resetForm();
 					}else{
 						layer.msg(res.result,{
