@@ -5,9 +5,15 @@ const AdminAuth=require(__dirname+"/../models/AdminAuth.js");
 const async=require("async");
 //角色管理
 router.get("/",function(req,res,next){
+	// res.send("bbb");
 	AdminRole.getAdminRoles({},function(err,data){
+		if(err){
+			res.send(data);
+		}
+		// console.log(data);
 		res.render('houtai/adminrole/role-list',{
-			adminroles:data
+			adminroles:data.adminroles,
+			total:data.total
 		});
 	})
 	// res.send("adminrole");
@@ -137,7 +143,7 @@ router.post("/save",function(req,res,next){
 	var roleName=req.body.roleName;
 	var desc=req.body.desc;
 	var auths=req.body.rolesid.split('|');
-	
+	// res.send(auths+'----------------');
 	AdminRole.toUpdate({_id:req.body._id},{
 		roleName:roleName,
 		desc:desc,

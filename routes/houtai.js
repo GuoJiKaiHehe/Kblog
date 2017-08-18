@@ -25,27 +25,34 @@ module.exports = function(app){
 	});
 
 	app.use(function(req,res,next){
-		res.send(req.session.adminRoles);
-		/*async.series({
+		// res.send(req.session.adminRoles);
+		//判断权限；
+		//console.log('bbb');
+		// res.end("bbb");
+
+		async.series({
 			checkAuth:function(cb){
 							   //发送过去一个数组；
-				AdminRole.checkAuth(req.session.adminRoles,function(err,r){
+				AdminRole.checkAuth(req.session.adminRoles,req,function(err,r){
 					if(err){
-						res.send("not auth access");
+					
+						cb("not auth access")
 					}else{
 						cb(null,r); //返回角色列表；
 					}
 				});	
 			}
 		},function(err,result){
-
-		});*/
-
+			if(err){
+				res.send("not auth")
+			}else{
+				next();
+				// res.send("welcome");
+			}
+		});
 	});
 	app.use(function(req,res,next){
-		//判断权限；
-		//console.log('bbb');
-		// res.end("bbb");
+		
 		
 		res.locals.adminRoles=req.session.adminRoles;
 		res.locals.adminId=req.session.adminId;

@@ -28,7 +28,7 @@
 						<label>
 							<input type="checkbox" value="" name="" id="">
 							全选</label>
-							<input type="text" id="rolesid_box" name="rolesid" value="">
+							<input type="hidden" id="rolesid_box" name="rolesid" value="">
 					</dt>
 					<%for(var k in modelAuths){%>
 					<dd>
@@ -42,10 +42,11 @@
 							<dd>
 							<%modelAuths[k].forEach((item)=>{%>
 							
-							
+								
 								<label class="">
-									<input type="checkbox" value="<%=item._id%>" name="" id="">
-									<%=item.authName%></label>
+									<input type="checkbox" value="<%=item._id%>" name="" id=""  <%=role.auths.indexOf(item._id)!='-1'?'checked' :''%> />
+									<%=item.authName%>
+								</label>
 							<%})%>
 								
 							</dd>
@@ -78,19 +79,24 @@
 $(function(){
 	//处理选中；
 	var checkboxs=$(".auth-wrap input[type=checkbox]");
-	var authsIds=$("#rolesid_box");
 	checkboxs.on("change",function(){
+		getcheckedId();
+	});
+	function getcheckedId(){
+		var authsIds=$("#rolesid_box");
+		var checkboxs=$(".auth-wrap input[type=checkbox]");
 		var resultArr=[];
-		
 		for(var i=0;i<checkboxs.length;i++){
+		
+			if(checkboxs[i].checked && checkboxs[i].value!==''){
 			
-			if(checkboxs[i].checked &&checkboxs[i].value!==''){
-				console.log(checkboxs[i].value)
 				resultArr.push(checkboxs[i].value);
 			}
 		}
+		console.log()
 		authsIds.val(resultArr.join("|"));
-	});
+	}
+	getcheckedId();
 
 
 	$(".permission-list dt input:checkbox").click(function(){
@@ -128,11 +134,12 @@ $(function(){
 		focusCleanup:true,
 		success:"valid",
 		submitHandler:function(form){
-
+			var loadindex=layer.load();
 			$(form).ajaxSubmit({
 				type:"post",
 				url:"/houtai/index/adminrole/save",
 				success:function(res){
+					layer.close(loadindex);
 					if(res.error==0){
 						layer.msg("编辑角色成功！",{
 							icon:1
@@ -144,6 +151,9 @@ $(function(){
 						});
 					}
 					
+				},
+				error:function(){
+					layer.close(loadindex);
 				}
 			});
 			/*var index = parent.layer.getFrameIndex(window.name);

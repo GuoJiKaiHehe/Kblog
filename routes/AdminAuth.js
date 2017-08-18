@@ -54,7 +54,7 @@ router.get("/",function(req,res,next){
 			 	adminAuths:data.adminAuths,
 			 	total:data.total,
 			 	pages:pages,
-			 	keyword:req.keyword
+			 	keyword:req.query.keyword
 			 })
 		}
 	})
