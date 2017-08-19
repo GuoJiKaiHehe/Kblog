@@ -1,0 +1,31 @@
+{
+  "name": "wangEditor",
+  "description": "wangEditor - 基于javascript和css开发的 web 富文本编辑器， 轻量、简洁、易用、开源免费",
+  "main": "release/wangEditor.js",
+  "authors": [
+    "wangfupeng <wangfupeng1988@163.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "wangEditor",
+    "web 富文本编辑器"
+  ],
+  "homepage": "https://github.com/wangfupeng1988/wangEditor",
+  "moduleType": [
+    "amd",
+    "cmd",
+    "node"
+  ],
+  "private": true,
+  "version": "3.0.8",
+  "_release": "3.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v3.0.8",
+    "commit": "e0879b68361b85c4df8bbb710286b0972f32bd47"
+  },
+  "_source": "https://github.com/wangfupeng1988/wangEditor.git",
+  "_target": "^3.0.8",
+  "_originalSource": "wangEditor",
+  "_direct": true
+}

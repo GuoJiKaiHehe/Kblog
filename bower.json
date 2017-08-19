@@ -13,6 +13,7 @@
     "tests"
   ],
   "dependencies": {
-    "simditor": "^2.3.6"
+    "simditor": "^2.3.6",
+    "wangEditor": "^3.0.8"
   }
 }

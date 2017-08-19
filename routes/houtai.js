@@ -24,7 +24,7 @@ module.exports = function(app){
 		}
 	});
 
-	app.use(function(req,res,next){
+/*	app.use(function(req,res,next){
 		// res.send(req.session.adminRoles);
 		//判断权限；
 		//console.log('bbb');
@@ -50,7 +50,7 @@ module.exports = function(app){
 				// res.send("welcome");
 			}
 		});
-	});
+	});*/
 	app.use(function(req,res,next){
 		
 		
@@ -72,8 +72,12 @@ module.exports = function(app){
 	app.use("/houtai/index/admin",require('./Admin.js')); //guanliyuan角色管理；
 	app.use("/houtai/index/module",require('./Module.js')); //模块管理；
 	app.use("/houtai/index/menu",require('./Menu.js')); //菜单管理；
+	app.use("/houtai/index/user",require('./User.js')); //用户管理
+	app.use("/houtai/index/userrole",require('./UserRole.js')); //用户管理
+	app.use("/houtai/index/userauth",require('./UserAuth.js')); //用户管理
+	app.use("/houtai/index/bowen",require('./Bowen.js')); //博文管理
 	app.use("/houtai/index/api",require('./api.js')); //API管理；
-
+	
 	// app.use("/houtai/index/user",require('./user.js')); //用户管理；
 	// app.use("/houtai/index/userRole",require('./userRole.js')); //用户角色管理；
 	return router;

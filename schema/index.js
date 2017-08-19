@@ -51,7 +51,7 @@ exports.UserAuthSchema = new Schema({
     },
     action:{
         type:String
-    }, //多个行为； 一个权限有多个行为；
+    }, 
     desc:{
         type:String
     },
@@ -91,7 +91,7 @@ exports.UserRoleSchema = new Schema({
         type:String,
         default:"是一个人"
     },
-    Auths: [{
+    auths: [{
         type:ObjectId,
         ref:"UserAuth"
     }]  //一个角色可以有多种权限；
@@ -163,9 +163,15 @@ exports.UserSchema=new Schema({
         index:true,
         required:true
     },
+    phone:{
+        type:Number
+    },
     avatar:{
         type:String,
         default:"default.jpg"
+    },
+    email:{
+        type:String
     },
     sex:{
         type:Number,
@@ -175,12 +181,6 @@ exports.UserSchema=new Schema({
         type:String,
         default:''
     },
-    roles:[
-        {
-            type:ObjectId,
-            ref:"UserRole"
-        }
-    ],  
     createAt:{
         type:Date,
         default:Date.now()
@@ -189,10 +189,14 @@ exports.UserSchema=new Schema({
         type:Boolean,  //是否启用
         default:true
     },
+    roles:[{
+        type:ObjectId,
+        ref:"AdminRole"
+    }],
     updateAt:{
         type:Date,
         default:Date.now()
-    },
+    }
 })
 
 

@@ -29,9 +29,9 @@
 					<td><%=(index+1)%></td>
 					<td><%=item.roleName%></td>
 					<td><span class="select-box"  style="position: relative;display: block;">
-					  <select class="select" _id="<%=item._id%>" id="users" size="" name="users" style="position: relative;">
+					  <select class="select users" size="3" _id="<%=item._id%>" id="" size="" name="users" style="position: relative;">
 					    <option value="" selected>点击查看</option>
-					    
+
 					  </select>
 					</span></td>
 					<td><%=item.desc%></td>
@@ -52,16 +52,25 @@
 <!--请在下方写此页面业务相关的脚本-->
 
 <script type="text/javascript">
-$("#users").on("click",function(){
+$(".users").on("click",function(){
 	var _id=$(this).attr("_id");
+	var _this=this;
 	$.ajax({
-		url:'/houtai/index/role/ownerRoleUsers',
+		url:'/houtai/index/api/ownerRoleUsers',
 		type:"get",
 		data:{
 			_id:_id
 		},
 		success:function(data){
-			console.log(data);
+			if(data.error==0){
+				var html="";
+				var users=data.result
+				html+='<option value="" selected>点击查看</option>';
+				for(var i=0;i<users.length;i++){
+					html+='<option value="">'+users[i]['nick']+'</option>'
+				}
+				$(_this).html(html);
+			}
 		}
 	})
 });

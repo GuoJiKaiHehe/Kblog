@@ -8,7 +8,7 @@ const fs=require("fs");
 const config=require(__dirname+"/../config/index.js");
 const lib=require(__dirname+"/../lib/index.js");
 
-
+const AdminRole=require(__dirname+"/../models/AdminRole.js");
 router.get("/getMenus",function(req,res){
 	Menu.getMenus({},function(err,data){
 			if(err){
@@ -26,5 +26,24 @@ router.get("/getMenus",function(req,res){
 
 	});
 });
+router.get("/ownerRoleUsers",function(req,res){
+	var _id=req.query._id;
 
+	AdminRole.ownerRoleUsers(_id,function(err,data){
+		if(err){
+			res.json({
+				error:1,
+				result:data
+			})
+		}else{
+			// console.log(data);
+			res.json({
+				error:0,
+				result:data
+			})
+		}
+		
+	});
+	
+});
 module.exports=router;

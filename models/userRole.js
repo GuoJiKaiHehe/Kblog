@@ -4,24 +4,41 @@ const UserRoleSchema=require(__dirname+"/../schema/index.js").UserRoleSchema;
 
 const User=require("./user.js");
 const lib=require(__dirname+"/../lib/index.js");
-
-
-/*RoleSchema.statics.ownerRoleUsers=function(role_id,cb){
-	User.find({}).exec(function(err,data){
-		var result=[];
-		if(data){
-			data.forEach(function(item,index){
-			item.roles.forEach((item2,index2)=>{
-				if(item2._id==role_id){
-					result.push(item2);
-					}
-				})
+const async=require('async');
+const util=require("util");
+UserRoleSchema.statics.getUserRoles=function(match,select,opts,cb){
+	var _this=this;
+	async.series({
+		getUserRoles:function(cb){
+			_this.model("UserRole").find(match,select,opts).exec((err,data)=>{
+				if(err){
+					cb(err.message,err.message);
+				}else{
+					cb(null,data);
+				}
+			})
+		},
+		total:function(cb){
+			_this.model("UserRole").count(function(err,data){
+				if(err){
+					cb(err.message);
+				}else{
+					cb(null,data)
+				}
 			})
 		}
+	},function(err,result){
+		if(err){
+			util.isFunction(opts) ?opts(1,err):cb(1,err);
+		}else{
 		
-		cb(result);
+			util.isFunction(opts) ? opts(0,{userroles:result.getUserRoles,total:result.total}):cb(0,{userroles:result.getUserRoles,total:result.total})
+		}
 	})
-};*/
+
+	
+}
+
 const Promise=require("bluebird");
 const UserRole=mongoose.model("UserRole",UserRoleSchema);
  Promise.promisifyAll(UserRole);

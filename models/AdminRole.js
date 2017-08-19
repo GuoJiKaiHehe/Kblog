@@ -1,4 +1,5 @@
 const mongoose=require("mongoose");
+const ObjectId=mongoose.Types.ObjectId;
 const AdminRoleSchema=require(__dirname+"/../schema/index.js").AdminRoleSchema;
 const Promise=require("bluebird");
 const util=require("util");
@@ -6,7 +7,7 @@ const url=require("url");
 // const User=require("./user.js");
 const lib=require(__dirname+"/../lib/index.js");
 const AdminAuth=require(__dirname+"/../models/AdminAuth.js");
-
+const Admin=require(__dirname+"/../models/Admin.js");
 const async=require("async");
 AdminRoleSchema.statics.storeAdminRole=function(req,cb){
 	this.model("AdminRole").findOne({roleName:req.body.roleName},(err1,data1)=>{
@@ -31,17 +32,7 @@ AdminRoleSchema.statics.storeAdminRole=function(req,cb){
 	
 }
 AdminRoleSchema.statics.getAdminRoles=function(opts,cb){
-/*	if(util.isFunction(opts)){
-			this.model("AdminRole").findAsync().then((data)=>{
 
-			opts(0,data);
-			});
-	}else{
-		this.model("AdminRole").findAsync({}).then((data)=>{
-
-			cb(0,data);
-		});
-	}*/
 	var _this=this;
 
 	async.series({
@@ -106,22 +97,17 @@ AdminRoleSchema.statics.del=function(match,cb){
 	});
 
 }
-/*AdminRoleSchema.statics.ownerRoleUsers=function(role_id,cb){
-	User.find({}).exec(function(err,data){
-		var result=[];
-		if(data){
-			data.forEach(function(item,index){
-			item.roles.forEach((item2,index2)=>{
-				if(item2._id==role_id){
-					result.push(item2);
-					}
-				})
-			})
+AdminRoleSchema.statics.ownerRoleUsers=function(role_id,cb){
+	console.log(role_id);
+	Admin.find({"roles":role_id}).exec((err,data)=>{
+		// console.log(data);
+		if(err){
+			cb(1,err.message)
+		}else{
+			cb(0,data);
 		}
-		
-		cb(result);
 	})
-};*/
+};
 AdminRoleSchema.statics.checkAuth=function(roles,req,cb){
 	//AdminAuth
 	var _this=this;

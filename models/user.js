@@ -1,109 +1,193 @@
-const mongoose = require("mongoose");
-const UserSchema = require("../schema/index").UserSchema;
-const lib = require(__dirname + '/../lib/index.js');
-const util = require("util");
-const Person = require("./person.js");
-const validate = require(__dirname + "/../lib/validate.js");
+const mongoose=require("mongoose");
+const UserSchema=require(__dirname+"/../schema/index.js").UserSchema;
 
-const limit=10;
-UserSchema.statics.register = function(obj, cb) {
-    validate.equal(obj.password, obj.password2) ? null : cb(1, '密码不相等');
+const util=require("util");
+// const User=require("./user.js");
+const lib=require(__dirname+"/../lib/index.js");
+const validate=require(__dirname+"/../lib/validate.js");
+const async=require("async");
+UserSchema.statics.addUser=function(obj,cb){
+    
+    //验证；
+    obj=lib.trims(obj);
 
-    var p1 = {
-        account: obj.account,
-        pass: lib.sha1(obj.password),
-        nick: obj.nick,
-        sex: obj.sex,
-        intro: obj.intro
-    };
+    if(!validate.rangeLen(obj.pass,6,20)){
+        cb(1,"密码格式不正确")
+    }
+    if(obj.pass!=obj.password2){
+        cb(2,'密码与确认密码不相等！');
+    }
+    if(!validate.rangeLen(obj.account,3,20)){
+        cb(3,'帐号格式不相等');
+    }
+    // console.log(obj);
+    try{
 
-    var pEntity = new Person(p1);
 
-    // if(pEntity)
-    // console.log(Person.isRepeatAccount);
-    Person.isRepeatAccount(obj.account, function(err, data) {
-
-        if (err) {
-            //如果错误存在； 错名有；
-            return cb(err, '用户名重复');
-        } else {
-            Person.isRepeatNick(obj.nick, function(err, data) {
-                if (err) {
-                    //如果错误存在； 错名有；
-                    return cb(1, '昵称重复');
-                } else {
-                    pEntity.save((err, data) => {
-                        // console.log(pEntity);
-                        if (err) {
-                            return cb(1, err)
-
-                        } else {
-
-                            var uEntity = new User({
-                                pid: data._id,
-                                roles: util.isArray(obj.roles) ? obj.roles : [obj.roles]
-                            });
-                            uEntity.save((err, u) => {
-                                if (err) {
-                                    return cb(1, err);
+    this.model("User").isExistField({account:obj.account}).then((data)=>{
+        if(data){
+            // console.log(data);
+            cb(4,'帐号已经存在！');
+            return;
+        }else{
+            //
+            this.model("User").isExistField({nick:obj.nick}).then((nick)=>{
+                if(nick){
+                    cb(5,'昵称已经存在！');
+                }else{
+                     this.model("User").isExistField({email:obj.email}).then((email)=>{
+                        if(email){
+                            cb(6,'邮箱已存在！');
+                        }else{
+                            obj.pass=lib.sha1(obj.pass);
+                            this.model("User").create({
+                                account:obj.account,
+                                pass:obj.pass,
+                                nick:obj.nick,
+                                phone:obj.phone||'',
+                                sex:obj.sex,
+                                roles:obj.roles.split("|"),
+                                intro:obj.intro,
+                                email:obj.email,
+                                avatar:obj.avatar
+                            },function(err,data){
+                                if(err){
+                                    cb(1,err.message);
+                                }else{
+                                    cb(0,data);
                                 }
-                                return cb(0, u);
-                            })
+                            }); 
 
                         }
-                    })
-                }
+                     })
+                    
 
-            });
+                }
+            })
+            
         }
-        // return  cb(err,null);
     });
-};
 
-UserSchema.statics.getUsers = function(opts, cb) {
-
-    this.model("User").find({},{},{
-        limit:opts.limit||limit,
-        skip:opts.first||0,
-        sort:{
-            _id:-1
-        }   
-    }).populate({
-        path: 'pid',
-        select: '',
-        options: {
-            sort: {
-                createAt: 1
-            },
-            /*limit: opts.limit || 2,
-            skip: opts.first || 0*/
+    }catch(e){
+        cb(1,e.message);
+    }
+    // if(rangeLen)
+    // this.model("User").find({account:})
+    
+}
+UserSchema.statics.getUsers=function(match,select,opts,cb){
+    // console.log(opts);
+    var _this=this;
+    async.parallel({
+        users:function(cb1){
+            _this.model("User").find(match,select,opts)
+                         .populate({path:"roles",select:''})
+                         .exec((err,data)=>{
+                            if(err){
+                                cb1(1,err.message);
+                            }else{
+                                cb1(null,data);
+                            }
+                          })
+        },
+        total:function(cb2){
+            _this.model("User").count(match,function(err,count){
+                                    if(err){
+                                        cb2(1,err.message);
+                                    }else{
+                                        cb2(null,count);
+                                    }
+                                });
         }
-    }).populate("roles").exec((err, data) => {
-        if (err) {
-            cb(1, err.message);
-            return;
+    },function(err,result){
+        if(err){
+            cb(1,err);
+        }else{
+            cb(0,result)
         }
-        this.model("User").count(function(err,count){
-                if(err){
-                      cb(1,err.message)
-                      return;  
+    })
+/*  this.model("User").find(match,select,opts)
+                       .populate({path:"roles",select:''})
+                       .exec((err,data)=>{
+                            if(err){
+                                cb(1,err.message);
+                            }else{
+                                this.model("User").count(match,function(err,count){
+                                    cb(0,{
+                                        users:data,
+                                        a:count
+                                    });
+                                });
+                                
+                            }
+                       })*/
+}
+UserSchema.statics.isExistField=function(fieldObj){
+ return new Promise((resolve,reject)=>{
+        this.model("User").findOne(fieldObj,function(err,data){
+            if(err){
+                    // reject(1,err.message);
+                    throw err;
+            }else{
+                if(data){
+                    resolve(data);
+                }else{
+                    resolve(null);
                 }
-                return cb(0, {
-                    result:data,
-                    total:count,
-                    limit:limit
-
-                });
+                
+            }
         })
+    })  
+}
 
-        
+UserSchema.statics.modifyPass=function(match,oldpass,newpass,cb){
+    this.model("User").findOne(match,(err,ad)=>{
+        if(err){
+            cb(1,err.message);
+        }else{
+            if(data){
+                if(oldpass!=ad.pass){
+                    cb(1,"久密码不相等！请选择其他方式修改！");
+                }else{
+                    this.model("User").update({_id:ad._id},{$set:{pass:newpass}},function(err,updata){
+                            if(err){
+                                cb(1,"修改出错！");
+                            }else{
+                                cb(0,'修改成功！');
+                            }
+                    });
+                }   
+            }
+            
+        }
     })
 }
-const Promise = require("bluebird");
-const User = mongoose.model("User", UserSchema);
-Promise.promisifyAll(User);
 
-module.exports = User;
-
-
-// console.log(UserSchema.statics.register)
+UserSchema.methods.saveUser=function(){
+    
+};
+UserSchema.statics.updateStatus=function(status,match,cb){
+    
+    if(status=='enable'){
+        this.model("User").findOneAndUpdate(match,{$set:{isEnable:true}},function(err,data){
+            if(err){
+                cb(1,err.message);
+            }else{
+                cb(0,data);
+            }
+        })
+    }else if(status=='disable'){
+        console.log(match);
+        this.model("User").findOneAndUpdate(match,{$set:{isEnable:false}},function(err,data){
+            if(err){
+                cb(1,err.message);
+            }else{
+                cb(0,data)
+            }
+        })
+    }
+}
+const Promise2=require("bluebird");
+const User=mongoose.model("User",UserSchema);
+Promise2.promisifyAll(User);
+module.exports=User;

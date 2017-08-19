@@ -1,7 +1,6 @@
 ﻿<%- include ../common/_meta.html%>
 <title>角色</title>
-<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
-<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+
 </head>
 <body>
 <article class="page-container">
@@ -82,7 +81,6 @@ $(function(){
 		rules:{
 			roleName:{
 				required:true,
-				minlength:4,
 				maxlength:50
 			},
 		},
@@ -96,13 +94,13 @@ $(function(){
 
 			$(form).ajaxSubmit({
 				type:"post",
-				url:"/houtai/index/userRole/store",
+				url:"/houtai/index/userrole/store",
 				success:function(res){
 					if(res.error==0){
 						layer.msg("添加角色成功！",{
 							icon:1
 						});
-						$("#form-admin-role-add").resetForm();
+						// $("#form-admin-role-add").resetForm();
 					}else{
 						layer.msg(res.result,{
 							icon:5

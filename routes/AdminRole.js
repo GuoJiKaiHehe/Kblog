@@ -16,17 +16,7 @@ router.get("/",function(req,res,next){
 			total:data.total
 		});
 	})
-	// res.send("adminrole");
-	/*Role.findAsync().then((data)=>{
-		console.log(data+'fffffff');
-		res.render("houtai/role/role-list",{
-			roles:data
-		});
-	})*/
-	// Role.fin
-	/*res.render("houtai/role/role-list",{
-			roles:[]
-	});*/
+	
 });
 
 //角色管理
